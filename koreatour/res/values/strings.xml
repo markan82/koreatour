@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, MainActivity!</string>
+    <string name="app_name">KoreaTour</string>
+    <string name="hint_keyword">검색어</string>
+    
+     <string name="btn_search">검색</string>
+
+</resources>
