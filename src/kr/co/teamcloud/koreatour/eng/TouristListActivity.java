@@ -31,7 +31,9 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class TouristListActivity extends Activity {
+public class TouristListActivity extends TourBaseActivity {
+	private final String TAG = "TouristListActivity";
+	
 	private List<Map<String, Object>> tourList = new ArrayList<Map<String, Object>>();
 
 	private TextView textView;
@@ -40,42 +42,23 @@ public class TouristListActivity extends Activity {
 
 	private SimpleAdapter simpleAdapter;
 
-	// url to make request
+	//지역 검색 URL
 	private String areaBasedListUrl = CommonConstants.END_POINT_URL
-			+ "areaBasedList?MobileOS=AND&MobileApp=koreaTour&_type=json&listYN=Y&serviceKey="
+			+ "areaBasedList"
+			+ "?MobileOS=AND&MobileApp=koreaTour&_type=json&listYN=Y&serviceKey="
 			+ CommonConstants.SERVICE_KEY;
 	
+	//키워드 검색 URL
 	private String searchKeywordUrl = CommonConstants.END_POINT_URL
-			+ "searchKeyword?MobileOS=AND&MobileApp=koreaTour&_type=json&listYN=Y&serviceKey="
+			+ "searchKeyword"
+			+ "?MobileOS=AND&MobileApp=koreaTour&_type=json&listYN=Y&serviceKey="
 			+ CommonConstants.SERVICE_KEY;
 
-	// JSON Node names
-	private final String TAG_RESPONSE = "response";
-	private final String TAG_HEADER = "header";
-	private final String TAG_RESULT_CODE = "resultCode";
-	private final String TAG_RESULT_MSG = "resultMsg";
-
-	private final String TAG_BODY = "body";
-	private final String TAG_ITEMS = "items";
-	private final String TAG_ITEM = "item";
-
-	private final String TAG_CONTENT_ID = "contentid";
-	private final String TAG_CONTENT_TYPE_ID = "contenttypeid";
-	private final String TAG_TITLE = "title";
-	private final String TAG_ADDR1 = "addr1";
-	private final String TAG_ADDR2 = "addr2";
-
-	private final String TAG_FIRSTIMAGE = "firstimage";
-	private final String TAG_FIRSTIMAGE2 = "firstimage2";
-	private final String TAG_MAPX = "mapx";
-	private final String TAG_MAPY = "mapy";
-	private final String TAG_READCOUNT = "readcount";
-
 	// 검색 조건
-	private int numOfRows = 20;
-	private int pageNo = 1;
-	private String arrange = "B";
-	private int contentTypeId = 12;
+	private int numOfRows = 20;		//한번에 조회할 갯수
+	private int pageNo = 1;			//페이지 번호
+	private String arrange = "B";	//정렬순서(인기순)
+	private int contentTypeId = 12;	//컨텐츠
 	private String keyword = "";
 
 	/** Called when the activity is first created. */
@@ -91,9 +74,8 @@ public class TouristListActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				keyword = inKeyword.getText().toString();
-				Toast.makeText(TouristListActivity.this, keyword,
-						Toast.LENGTH_LONG).show();
-				if( !"".equals(keyword) ) {
+				Toast.makeText(TouristListActivity.this, keyword, Toast.LENGTH_LONG).show();
+				if( keyword.isEmpty()==false ) {
 					//키워드 검색
 					StringBuilder sb = new StringBuilder(searchKeywordUrl);
 					sb.append("&numOfRows=").append(numOfRows);
@@ -115,19 +97,13 @@ public class TouristListActivity extends Activity {
 		listView.setAdapter(simpleAdapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		listView.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// TODO: Implement this method
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Map data = tourList.get(position);
-				Toast.makeText(TouristListActivity.this, "" + data.get(TAG_TITLE),
-						Toast.LENGTH_LONG).show();
-				Intent intent = new Intent(TouristListActivity.this,
-						TouristDetailActivity.class);
-				intent.putExtra(TAG_CONTENT_ID,
-						(String) data.get(TAG_CONTENT_ID));
-				intent.putExtra(TAG_CONTENT_TYPE_ID,
-						(String) data.get(TAG_CONTENT_TYPE_ID));
-				intent.putExtra(TAG_TITLE, (String) data.get(TAG_TITLE));
+				Toast.makeText(TouristListActivity.this, "" + data.get(TAG_TITLE), Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(TouristListActivity.this, TouristDetailActivity.class);
+				intent.putExtra(TAG_CONTENT_ID, (String)data.get(TAG_CONTENT_ID));
+				intent.putExtra(TAG_CONTENT_TYPE_ID, (String)data.get(TAG_CONTENT_TYPE_ID));
+				intent.putExtra(TAG_TITLE, (String)data.get(TAG_TITLE));
 				// startActivity(intent);
 			}
 		});
@@ -148,22 +124,13 @@ public class TouristListActivity extends Activity {
 		}
 	}
 
-	// Uses AsyncTask to create a task away from the main UI thread. This task
-	// takes a
-	// URL string and uses it to create an HttpUrlConnection. Once the
-	// connection
-	// has been established, the AsyncTask downloads the contents of the webpage
-	// as
-	// an InputStream. Finally, the InputStream is converted into a string,
-	// which is
-	// displayed in the UI by the AsyncTask's onPostExecute method.
-	private class TourListAsyncTask extends AsyncTask<String, Void, Map> {
+	private class TourListAsyncTask extends AsyncTask<String, Void, HashMap<String, Object>> {
 
 		@Override
-		protected Map doInBackground(String... args) {			
-			Log.d(CommonConstants.TAG, "[TourList] " + args[0]);
+		protected HashMap<String, Object> doInBackground(String... args) {			
+			Log.d(TAG, "[url] " + args[0]);
 
-			Map map = new HashMap();
+			HashMap<String, Object> map = new HashMap<String, Object>();
 			try {
 				JSONObject result = new JSONParser().getJSONFromUrl(args[0]);
 				JSONObject reponse = result.getJSONObject(TAG_RESPONSE);
@@ -174,7 +141,7 @@ public class TouristListActivity extends Activity {
 				map.put(TAG_RESULT_CODE, resultCode);
 				map.put(TAG_RESULT_MSG, resultMsg);
 
-				if ("0000".equals(resultCode)) {
+				if ( "0000".equals(resultCode) ) {
 					JSONObject body = reponse.getJSONObject(TAG_BODY);
 					JSONObject items = body.getJSONObject(TAG_ITEMS);
 					JSONArray item = items.getJSONArray(TAG_ITEM);
@@ -182,33 +149,29 @@ public class TouristListActivity extends Activity {
 						JSONObject obj = item.getJSONObject(i);
 
 						String contentId = obj.getString(TAG_CONTENT_ID);
-						String contentTypeId = obj
-								.getString(TAG_CONTENT_TYPE_ID);
+						String contentTypeId = obj.getString(TAG_CONTENT_TYPE_ID);
 						String title = obj.getString(TAG_TITLE);
-						String addr1 = obj.getString(TAG_ADDR1);
-						// String addr2 = obj.getString(TAG_ADDR2);
-						if (obj.has(TAG_ADDR2))
-							addr1 += " " + obj.getString(TAG_ADDR2);
+						
+						//주소
+						String addr = obj.getString(TAG_ADDR1);
+						if ( obj.has(TAG_ADDR2) &&  obj.getString(TAG_ADDR2).isEmpty()==false )
+							addr += " " + obj.getString(TAG_ADDR2);
 
-						Map data = new HashMap();
+						HashMap<String, Object> data = new HashMap<String, Object>();
 						data.put(TAG_CONTENT_ID, contentId);
 						data.put(TAG_CONTENT_TYPE_ID, contentTypeId);
 						data.put(TAG_TITLE, title);
-						data.put(TAG_ADDR1, addr1);
-						// if( obj.has(TAG_ADDR2) ) data.put(TAG_ADDR2,
-						// obj.getString(TAG_ADDR2));
+						data.put(TAG_ADDR1, addr);
 						tourList.add(data);
 					}
 				}
 
 			} catch (JSONException e) {
-				Log.e(CommonConstants.TAG, "[JSON Parser] Error parsing data "
-						+ e.toString());
+				Log.e(TAG, "[JSON Parser] " + e.toString());
 				map.put(TAG_RESULT_CODE, "9999");
 				map.put(TAG_RESULT_MSG, e.getMessage());
 			} catch (Exception e) {
-				Log.e(CommonConstants.TAG, "[JSON Parser] Error parsing data "
-						+ e.toString());
+				Log.e(TAG, "[Exception] " + e.toString());
 				map.put(TAG_RESULT_CODE, "9999");
 				map.put(TAG_RESULT_MSG, e.getMessage());
 			}
@@ -216,14 +179,9 @@ public class TouristListActivity extends Activity {
 			return map;
 		}
 
-		// onPostExecute displays the results of the AsyncTask.
 		@Override
-		protected void onPostExecute(Map result) {
-			Toast.makeText(
-					TouristListActivity.this,
-					"[" + result.get(TAG_RESULT_CODE) + "] "
-							+ result.get(TAG_RESULT_MSG), Toast.LENGTH_LONG)
-					.show();
+		protected void onPostExecute(HashMap<String, Object> result) {
+			Toast.makeText(TouristListActivity.this, "[" + result.get(TAG_RESULT_CODE) + "] " + result.get(TAG_RESULT_MSG), Toast.LENGTH_LONG).show();
 			if ("0000".equals(result.get(TAG_RESULT_CODE)))
 				simpleAdapter.notifyDataSetChanged();
 		}
