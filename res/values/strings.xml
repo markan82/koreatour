@@ -5,6 +5,8 @@
     <string name="app_name">Tour in Korea</string>
     
     <string name="title_tourist">Tourist Attractions</string>
+    <string name="msg_requesting_data">Requesting data ...</string>
+     <string name="msg_not_any_more">Not any more.</string>
     
     <string name="hint_keyword">검색어</string>
     

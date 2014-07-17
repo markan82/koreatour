@@ -29,13 +29,15 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
+import android.widget.ViewSwitcher;
 
 public class TouristListActivity extends TourBaseActivity implements OnScrollListener {
 	private final String TAG = "TouristListActivity";
 	
 	private ArrayList<HashMap<String, Object>> tourList = new ArrayList<HashMap<String, Object>>();
 
-	private View loadingView;
+	private ViewSwitcher loadingView;
 	private TextView textView;
 	private EditText inKeyword;
 	private Button btnSearch;
@@ -93,7 +95,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 
 		listView = (ListView)findViewById(R.id.listView1);
 		//푸터를 등록합니다. setAdapter 이전에 해야함
-		loadingView = View.inflate(this, R.layout.loading_progress, null);
+		loadingView = (ViewSwitcher)View.inflate(this, R.layout.loading_progress, null);
 		listView.addFooterView(loadingView);
 		listView.setAdapter(simpleAdapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -228,10 +230,12 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 				int totalCount = (Integer)result.get(TAG_TOTAL_COUNT);
 				if( totalCount <= tourList.size() ) {
 					isLockListView = true;	//더보기 불가능
-					loadingView.setVisibility(View.GONE);
+//					loadingView.setVisibility(View.GONE);
+					loadingView.showNext();
 				} else {
 					isLockListView = false;	//더보기 가능
-					loadingView.setVisibility(View.VISIBLE);
+//					loadingView.setVisibility(View.VISIBLE);
+					loadingView.showPrevious();
 				}
 			}
 			else
