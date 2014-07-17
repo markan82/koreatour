@@ -38,7 +38,7 @@ public class AreaListActivity extends TourBaseActivity implements OnItemClickLis
 		list = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("name", getString(R.string.all_area));
-		map.put("code", "");
+		map.put("code", null);
 		list.add(map);
 		
 		simpleAdapter = new SimpleAdapter(AreaListActivity.this, list,
@@ -123,15 +123,11 @@ public class AreaListActivity extends TourBaseActivity implements OnItemClickLis
 		String code = data.get("code");
 		String name = data.get("name");
 		
-		if( code==null || "".equals(code) || "8".equals(code)) {// 세종 자치시:8
-			Bundle extra = new Bundle();
-			extra.putString("areaName", name);
-			extra.putString("areaCode", code);
+		if( code==null || "8".equals(code)) {// 세종 자치시:8
 			Intent intent = new Intent();
-			intent.putExtras(extra);
+			intent.putExtra("areaName", name);
+			intent.putExtra("areaCode", code);
 			this.setResult(RESULT_OK, intent); // 성공했다는 결과값을 보내면서 데이터 꾸러미를 지고 있는 intent를 함께 전달한다.
-		} else if("8".equals(code)) {
-			//세종 자치시
 		} else {
 			//시군구 선택 화면으로 이동
 			Intent intent = new Intent(this, SigungoListActivity.class);

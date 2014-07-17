@@ -38,7 +38,6 @@ public class SigungoListActivity extends TourBaseActivity implements OnItemClick
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dialog_area_list);
-		setTitle("시군구를 선택하세요");
 		
 		areaCode = getIntent().getStringExtra("areaCode");
 		areaName = getIntent().getStringExtra("areaName");
@@ -61,9 +60,9 @@ public class SigungoListActivity extends TourBaseActivity implements OnItemClick
 				+ "?MobileOS=AND&MobileApp="+CommonConstants.MOBILE_APP+"&_type=json&listYN=Y&serviceKey="
 				+ CommonConstants.SERVICE_KEY
 				+ "&numOfRows=99&pageNo=1";
-		if(areaCode!=null && !"".equals(areaCode)) 
-			url += "&areaCode=" + areaCode;
+		if(areaCode!=null && !"".equals(areaCode)) url += "&areaCode=" + areaCode;
 		Log.d(TAG, "[url] " + url);
+		
 		aq.ajax(url, JSONObject.class, CommonConstants.CACHE_EXPIRE, new AjaxCallback<JSONObject>() {
 				@Override
 				public void callback(String url, JSONObject json, AjaxStatus status) {   
@@ -84,6 +83,7 @@ public class SigungoListActivity extends TourBaseActivity implements OnItemClick
 							String resultMsg = header.getString(TAG_RESULT_MSG);
 							if( !resultCode.equals("0000") ) {
 								Toast.makeText(SigungoListActivity.this, "tour api call error : " + resultMsg, Toast.LENGTH_SHORT).show();
+								status.invalidate();
 								return;
 							}
 
@@ -97,8 +97,8 @@ public class SigungoListActivity extends TourBaseActivity implements OnItemClick
 
 								if(item instanceof JSONArray) {
 									HashMap<String, String> map = new HashMap<String, String>();
-									map.put("name", areaName + " 전체");
-									map.put("code", "");
+									map.put("name", areaName + " " + getString(R.string.all));
+									map.put("code", null);
 									list.add(map);
 									JSONArray itemArray = (JSONArray) item;
 									for(int i=0, s=itemArray.length(); i<s; i++) {
@@ -129,12 +129,15 @@ public class SigungoListActivity extends TourBaseActivity implements OnItemClick
 							}
 						} catch (JSONException e) {
 							Toast.makeText(SigungoListActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+							status.invalidate();
 						} catch (Exception e) {
 							Toast.makeText(SigungoListActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+							status.invalidate();
 						}
 					} else {
 						// ajax error
 						Toast.makeText(SigungoListActivity.this, message, Toast.LENGTH_LONG).show();
+						status.invalidate();
 					}
 				}
 			});		
@@ -158,7 +161,7 @@ public class SigungoListActivity extends TourBaseActivity implements OnItemClick
 		String name = data.get("name");
 		
 		Bundle extra = new Bundle();
-		if( code.equals("") ) {
+		if( code == null ) {
 			//해당 지역 전체를 선택한경우
 			extra.putString("areaName", name);
 			extra.putString("areaCode", areaCode);

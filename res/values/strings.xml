@@ -10,8 +10,10 @@
     <string name="msg_no_result_msg">There is no search results.</string>
     <string name="search_all_area">All Area</string>
     
-    <string name="title_arealist">Select area</string>
+    <string name="title_arealist">Choose area</string>
+    <string name="title_sigungulist">Choose subarea</string>
     <string name="all_area">All Area</string>
+    <string name="all">All</string>
     
     <string name="hint_keyword">검색어</string>
     <string name="btn_search">검색</string>
