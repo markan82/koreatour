@@ -254,7 +254,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 					//검색된 결과가 없음.
 					if( noResultMsg.getVisibility()==View.GONE )
 						noResultMsg.setVisibility(View.VISIBLE);
-					isLockListView = true;	//더보기 불가능
+//					isLockListView = true;	//더보기 불가능
 				}
 			}
 			else
