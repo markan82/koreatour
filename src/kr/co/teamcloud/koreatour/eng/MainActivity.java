@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +23,6 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,18 +32,6 @@ public class MainActivity extends Activity
 	
 	private static final String TAG = "KoreaTour";	//디버그 태그
 	
-	//서비스 키 (공통으로 만들 필요)
-	public static String serviceKey = "KjHpwYu0kgrn0KQtrx+tZe+FZPAjgzCdA2/17aMuRVlsyAwZ4b+7NDHh2rhsLHb3ivbyjgAdT55AgAt59aHRHQ==";
-
-	static {
-		try
-		{
-			serviceKey = URLEncoder.encode(serviceKey, "utf-8");
-		}
-		catch (IOException e)
-		{}
-	}
-
 	private List<Map<String, Object>> tourList = new ArrayList<Map<String, Object>>();
 	
 	private TextView textView;
@@ -89,35 +75,17 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 		
-		Intent i = new Intent(MainActivity.this, TourListActivity.class);
+		Intent i = new Intent(MainActivity.this, TouristListActivity.class);
 	    startActivity(i);
 	    finish();
 		
-		
-		textView = (TextView) findViewById(R.id.myText);
-		
-		simpleAdapter = new SimpleAdapter(MainActivity.this, 
-										tourList, 
-										android.R.layout.simple_expandable_list_item_2,
-										new String[]{TAG_TITLE, TAG_ADDR1},
-										new int[]{android.R.id.text1, android.R.id.text2});
-
-		ListView listView = (ListView) findViewById(R.id.listView1);
-		listView.setAdapter(simpleAdapter);
-		
-		//요청 URL
-		String requestUrl = url + "&serviceKey=" + serviceKey;
-		requestUrl += "&numOfRows=100&pageNo=1&arrange=B&listYN=Y&contentTypeId=12";
 		
 		//네트워크 연결 여부 확인하기
 		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 		if (networkInfo != null && networkInfo.isConnected()) {
-			Toast.makeText(MainActivity.this, requestUrl, Toast.LENGTH_LONG).show();
 			// fetch data
 			//new DownloadWebpageTask().execute(requestUrl);
-			
-			
 		} else {
 			// display error
 			textView.setText("No network connection available.");
