@@ -34,7 +34,7 @@ import android.widget.Toast;
 public class TouristListActivity extends TourBaseActivity {
 	private final String TAG = "TouristListActivity";
 	
-	private List<Map<String, Object>> tourList = new ArrayList<Map<String, Object>>();
+	private ArrayList<HashMap<String, Object>> tourList = new ArrayList<HashMap<String, Object>>();
 
 	private TextView textView;
 	private EditText inKeyword;
@@ -75,7 +75,7 @@ public class TouristListActivity extends TourBaseActivity {
 			public void onClick(View v) {
 				keyword = inKeyword.getText().toString();
 				Toast.makeText(TouristListActivity.this, keyword, Toast.LENGTH_LONG).show();
-				if( keyword.isEmpty()==false ) {
+				if( !"".equals(keyword) ) {
 					//키워드 검색
 					StringBuilder sb = new StringBuilder(searchKeywordUrl);
 					sb.append("&numOfRows=").append(numOfRows);
@@ -93,12 +93,12 @@ public class TouristListActivity extends TourBaseActivity {
 						TAG_TITLE, TAG_ADDR1 }, new int[] { android.R.id.text1,
 						android.R.id.text2 });
 
-		ListView listView = (ListView) findViewById(R.id.listView1);
+		ListView listView = (ListView)findViewById(R.id.listView1);
 		listView.setAdapter(simpleAdapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Map data = tourList.get(position);
+				HashMap<String, Object> data = tourList.get(position);
 				Toast.makeText(TouristListActivity.this, "" + data.get(TAG_TITLE), Toast.LENGTH_LONG).show();
 				Intent intent = new Intent(TouristListActivity.this, TouristDetailActivity.class);
 				intent.putExtra(TAG_CONTENT_ID, (String)data.get(TAG_CONTENT_ID));
@@ -125,7 +125,6 @@ public class TouristListActivity extends TourBaseActivity {
 	}
 
 	private class TourListAsyncTask extends AsyncTask<String, Void, HashMap<String, Object>> {
-
 		@Override
 		protected HashMap<String, Object> doInBackground(String... args) {			
 			Log.d(TAG, "[url] " + args[0]);
@@ -142,6 +141,8 @@ public class TouristListActivity extends TourBaseActivity {
 				map.put(TAG_RESULT_MSG, resultMsg);
 
 				if ( "0000".equals(resultCode) ) {
+					//TODO: 파일 캐쉬 구현 예정
+					
 					JSONObject body = reponse.getJSONObject(TAG_BODY);
 					JSONObject items = body.getJSONObject(TAG_ITEMS);
 					JSONArray item = items.getJSONArray(TAG_ITEM);
@@ -154,7 +155,7 @@ public class TouristListActivity extends TourBaseActivity {
 						
 						//주소
 						String addr = obj.getString(TAG_ADDR1);
-						if ( obj.has(TAG_ADDR2) &&  obj.getString(TAG_ADDR2).isEmpty()==false )
+						if ( obj.has(TAG_ADDR2) && !"".equals(obj.getString(TAG_ADDR2)) )
 							addr += " " + obj.getString(TAG_ADDR2);
 
 						HashMap<String, Object> data = new HashMap<String, Object>();
