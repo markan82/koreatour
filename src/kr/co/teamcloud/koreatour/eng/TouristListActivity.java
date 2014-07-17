@@ -199,18 +199,19 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 							String contentId = obj.getString(TAG_CONTENT_ID);
 							String contentTypeId = obj.getString(TAG_CONTENT_TYPE_ID);
 							String title = obj.getString(TAG_TITLE);
-							String image = obj.getString(TAG_FIRSTIMAGE2);
+							String image = null;
+							if( obj.has(TAG_FIRSTIMAGE2) ) image = obj.getString(TAG_FIRSTIMAGE2);
 							
 							//주소
-							String addr = obj.getString(TAG_ADDR1);
-							if ( obj.has(TAG_ADDR2) && !"".equals(obj.getString(TAG_ADDR2)) )
-								addr += " " + obj.getString(TAG_ADDR2);
+							String addr = null;
+							if ( obj.has(TAG_ADDR1) ) addr = obj.getString(TAG_ADDR1);
+							if ( obj.has(TAG_ADDR2) ) addr += " " + obj.getString(TAG_ADDR2);
 	
 							HashMap<String, Object> data = new HashMap<String, Object>();
 							data.put("contentId", contentId);
 							data.put("contentTypeId", contentTypeId);
 							data.put("title", title);
-							data.put("addr", addr);
+							data.put("addr", addr.trim());
 							data.put("image", image);
 							tourList.add(data);
 						}
