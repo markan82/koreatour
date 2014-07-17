@@ -1,16 +1,25 @@
-package kr.co.teamcloud.koreatour.tourist;
+package kr.co.teamcloud.koreatour.eng;
 
-import android.app.*;
-import android.os.*;
-import android.util.*;
-import android.widget.*;
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import kr.co.teamcloud.koreatour.*;
-import org.json.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
-public class TourDetailActivity extends Activity
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.Activity;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
+
+public class TouristDetailActivity extends Activity
 {
 	
 	//private List<Map<String, Object>> tourList = new ArrayList<Map<String, Object>>();

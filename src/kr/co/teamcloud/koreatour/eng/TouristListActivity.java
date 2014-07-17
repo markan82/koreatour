@@ -1,11 +1,10 @@
-package kr.co.teamcloud.koreatour.tourist;
+package kr.co.teamcloud.koreatour.eng;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import kr.co.teamcloud.koreatour.R;
 import kr.co.teamcloud.koreatour.common.CommonConstants;
 import kr.co.teamcloud.koreatour.util.JSONParser;
 
@@ -32,7 +31,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class TourListActivity extends Activity {
+public class TouristListActivity extends Activity {
 	private List<Map<String, Object>> tourList = new ArrayList<Map<String, Object>>();
 
 	private TextView textView;
@@ -42,13 +41,13 @@ public class TourListActivity extends Activity {
 	private SimpleAdapter simpleAdapter;
 
 	// url to make request
-	private String areaBasedListUrl = CommonConstants.requestURL
+	private String areaBasedListUrl = CommonConstants.END_POINT_URL
 			+ "areaBasedList?MobileOS=AND&MobileApp=koreaTour&_type=json&listYN=Y&serviceKey="
-			+ CommonConstants.serviceKey;
+			+ CommonConstants.SERVICE_KEY;
 	
-	private String searchKeywordUrl = CommonConstants.requestURL
+	private String searchKeywordUrl = CommonConstants.END_POINT_URL
 			+ "searchKeyword?MobileOS=AND&MobileApp=koreaTour&_type=json&listYN=Y&serviceKey="
-			+ CommonConstants.serviceKey;
+			+ CommonConstants.SERVICE_KEY;
 
 	// JSON Node names
 	private final String TAG_RESPONSE = "response";
@@ -92,7 +91,7 @@ public class TourListActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				keyword = inKeyword.getText().toString();
-				Toast.makeText(TourListActivity.this, keyword,
+				Toast.makeText(TouristListActivity.this, keyword,
 						Toast.LENGTH_LONG).show();
 				if( !"".equals(keyword) ) {
 					//키워드 검색
@@ -107,7 +106,7 @@ public class TourListActivity extends Activity {
 			}
 		});
 
-		simpleAdapter = new SimpleAdapter(TourListActivity.this, tourList,
+		simpleAdapter = new SimpleAdapter(TouristListActivity.this, tourList,
 				android.R.layout.simple_expandable_list_item_2, new String[] {
 						TAG_TITLE, TAG_ADDR1 }, new int[] { android.R.id.text1,
 						android.R.id.text2 });
@@ -120,10 +119,10 @@ public class TourListActivity extends Activity {
 					int position, long id) {
 				// TODO: Implement this method
 				Map data = tourList.get(position);
-				Toast.makeText(TourListActivity.this, "" + data.get(TAG_TITLE),
+				Toast.makeText(TouristListActivity.this, "" + data.get(TAG_TITLE),
 						Toast.LENGTH_LONG).show();
-				Intent intent = new Intent(TourListActivity.this,
-						TourDetailActivity.class);
+				Intent intent = new Intent(TouristListActivity.this,
+						TouristDetailActivity.class);
 				intent.putExtra(TAG_CONTENT_ID,
 						(String) data.get(TAG_CONTENT_ID));
 				intent.putExtra(TAG_CONTENT_TYPE_ID,
@@ -221,7 +220,7 @@ public class TourListActivity extends Activity {
 		@Override
 		protected void onPostExecute(Map result) {
 			Toast.makeText(
-					TourListActivity.this,
+					TouristListActivity.this,
 					"[" + result.get(TAG_RESULT_CODE) + "] "
 							+ result.get(TAG_RESULT_MSG), Toast.LENGTH_LONG)
 					.show();
