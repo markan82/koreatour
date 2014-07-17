@@ -56,7 +56,7 @@ public class SigungoListActivity extends TourBaseActivity implements OnItemClick
 			
 		AQuery aq = new AQuery(SigungoListActivity.this);
 		String url = CommonConstants.END_POINT_URL
-				+ "searchKeyword"
+				+ "areaCode"
 				+ "?MobileOS=AND&MobileApp="+CommonConstants.MOBILE_APP+"&_type=json&listYN=Y&serviceKey="
 				+ CommonConstants.SERVICE_KEY
 				+ "&numOfRows=99&pageNo=1";
