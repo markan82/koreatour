@@ -28,10 +28,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
 import android.widget.ViewSwitcher;
 
 public class TouristListActivity extends TourBaseActivity implements OnScrollListener {
@@ -46,7 +44,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 	private Button btnSearch;
 	private ListView listView;
 
-	private SimpleAdapter simpleAdapter;
+	private TouristListAdapter adapter;
 
 	private boolean isLockListView = true;	//스크롤시 자동으로 데이터를 조회하는지 여부(true:조회하지 않음)
 	
@@ -94,16 +92,14 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 			}
 		});
 
-		simpleAdapter = new SimpleAdapter(TouristListActivity.this, tourList,
-				android.R.layout.simple_expandable_list_item_2, new String[] {
-						TAG_TITLE, TAG_ADDR1 }, new int[] { android.R.id.text1,
-						android.R.id.text2 });
+		/** 아답타 등록 */
+		adapter = new TouristListAdapter(this, tourList);    
 
 		listView = (ListView)findViewById(R.id.listView1);
 		//푸터를 등록합니다. setAdapter 이전에 해야함
 		loadingView = (ViewSwitcher)View.inflate(this, R.layout.loading_progress, null);
 		listView.addFooterView(loadingView);
-		listView.setAdapter(simpleAdapter);
+		listView.setAdapter(adapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		listView.setOnScrollListener(this);
 //		listView.setOnItemClickListener(this);
@@ -197,6 +193,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 							String contentId = obj.getString(TAG_CONTENT_ID);
 							String contentTypeId = obj.getString(TAG_CONTENT_TYPE_ID);
 							String title = obj.getString(TAG_TITLE);
+							String image = obj.getString(TAG_FIRSTIMAGE2);
 							
 							//주소
 							String addr = obj.getString(TAG_ADDR1);
@@ -204,10 +201,11 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 								addr += " " + obj.getString(TAG_ADDR2);
 	
 							HashMap<String, Object> data = new HashMap<String, Object>();
-							data.put(TAG_CONTENT_ID, contentId);
-							data.put(TAG_CONTENT_TYPE_ID, contentTypeId);
-							data.put(TAG_TITLE, title);
-							data.put(TAG_ADDR1, addr);
+							data.put("contentId", contentId);
+							data.put("contentTypeId", contentTypeId);
+							data.put("title", title);
+							data.put("addr", addr);
+							data.put("image", image);
 							tourList.add(data);
 						}
 					} 
@@ -237,7 +235,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 					if( noResultMsg.getVisibility()==View.VISIBLE )
 						noResultMsg.setVisibility(View.GONE);
 					
-					simpleAdapter.notifyDataSetChanged();
+					adapter.notifyDataSetChanged();
 					if(pageNo == 1) listView.setSelectionFromTop(0, 0);
 					
 					//조회한 수와 검색 수가 같아지면 더보기 중단.
