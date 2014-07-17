@@ -36,6 +36,7 @@
 		android:typeface="sans"
 		android:textSize="20dip"
 		android:textStyle="bold"
+		android:singleLine="true"
 		android:ellipsize="start" />
 
 	<TextView
@@ -47,6 +48,8 @@
 		android:textSize="15dip"
 		android:layout_marginTop="1dip"
 		android:layout_toRightOf="@+id/thumbnail"
+		android:singleLine="true"
+		android:ellipsize="start"
 		android:text="Just gona stand there and ..."/>
 
 	<TextView
