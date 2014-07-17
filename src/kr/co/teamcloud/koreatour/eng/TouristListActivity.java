@@ -230,12 +230,12 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 				int totalCount = (Integer)result.get(TAG_TOTAL_COUNT);
 				if( totalCount <= tourList.size() ) {
 					isLockListView = true;	//더보기 불가능
-//					loadingView.setVisibility(View.GONE);
-					loadingView.showNext();
+					loadingView.setVisibility(View.GONE);
+//					loadingView.showNext();
 				} else {
 					isLockListView = false;	//더보기 가능
-//					loadingView.setVisibility(View.VISIBLE);
-					loadingView.showPrevious();
+					loadingView.setVisibility(View.VISIBLE);
+//					loadingView.showPrevious();
 				}
 			}
 			else
