@@ -58,7 +58,7 @@ public class TouristListActivity extends TourBaseActivity {
 	private int numOfRows = 20;		//한번에 조회할 갯수
 	private int pageNo = 1;			//페이지 번호
 	private String arrange = "B";	//정렬순서(인기순)
-	private int contentTypeId = 12;	//컨텐츠
+	private int contentTypeId = 76;	//컨텐츠
 	private String keyword = "";
 
 	/** Called when the activity is first created. */
@@ -144,26 +144,30 @@ public class TouristListActivity extends TourBaseActivity {
 					//TODO: 파일 캐쉬 구현 예정
 					
 					JSONObject body = reponse.getJSONObject(TAG_BODY);
-					JSONObject items = body.getJSONObject(TAG_ITEMS);
-					JSONArray item = items.getJSONArray(TAG_ITEM);
-					for (int i = 0, l = item.length(); i < l; i++) {
-						JSONObject obj = item.getJSONObject(i);
-
-						String contentId = obj.getString(TAG_CONTENT_ID);
-						String contentTypeId = obj.getString(TAG_CONTENT_TYPE_ID);
-						String title = obj.getString(TAG_TITLE);
-						
-						//주소
-						String addr = obj.getString(TAG_ADDR1);
-						if ( obj.has(TAG_ADDR2) && !"".equals(obj.getString(TAG_ADDR2)) )
-							addr += " " + obj.getString(TAG_ADDR2);
-
-						HashMap<String, Object> data = new HashMap<String, Object>();
-						data.put(TAG_CONTENT_ID, contentId);
-						data.put(TAG_CONTENT_TYPE_ID, contentTypeId);
-						data.put(TAG_TITLE, title);
-						data.put(TAG_ADDR1, addr);
-						tourList.add(data);
+					
+					if( body.getInt(TAG_TOTAL_COUNT) > 0 ) 
+					{
+						JSONObject items = body.getJSONObject(TAG_ITEMS);
+						JSONArray item = items.getJSONArray(TAG_ITEM);
+						for (int i = 0, l = item.length(); i < l; i++) {
+							JSONObject obj = item.getJSONObject(i);
+	
+							String contentId = obj.getString(TAG_CONTENT_ID);
+							String contentTypeId = obj.getString(TAG_CONTENT_TYPE_ID);
+							String title = obj.getString(TAG_TITLE);
+							
+							//주소
+							String addr = obj.getString(TAG_ADDR1);
+							if ( obj.has(TAG_ADDR2) && !"".equals(obj.getString(TAG_ADDR2)) )
+								addr += " " + obj.getString(TAG_ADDR2);
+	
+							HashMap<String, Object> data = new HashMap<String, Object>();
+							data.put(TAG_CONTENT_ID, contentId);
+							data.put(TAG_CONTENT_TYPE_ID, contentTypeId);
+							data.put(TAG_TITLE, title);
+							data.put(TAG_ADDR1, addr);
+							tourList.add(data);
+						}
 					}
 				}
 
@@ -185,6 +189,8 @@ public class TouristListActivity extends TourBaseActivity {
 			Toast.makeText(TouristListActivity.this, "[" + result.get(TAG_RESULT_CODE) + "] " + result.get(TAG_RESULT_MSG), Toast.LENGTH_LONG).show();
 			if ("0000".equals(result.get(TAG_RESULT_CODE)))
 				simpleAdapter.notifyDataSetChanged();
+			else
+				;//TODO: 에러 메시지 출력
 		}
 	}
 }

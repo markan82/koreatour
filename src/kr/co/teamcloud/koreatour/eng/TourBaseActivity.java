@@ -11,6 +11,10 @@ public class TourBaseActivity extends Activity {
 	protected final String TAG_RESULT_MSG = "resultMsg";
 
 	protected final String TAG_BODY = "body";
+	protected final String TAG_NUM_OF_ROWS = "numOfRows";
+	protected final String TAG_PAGE_NO = "pageNo";
+	protected final String TAG_TOTAL_COUNT = "totalCount";
+	
 	protected final String TAG_ITEMS = "items";
 	protected final String TAG_ITEM = "item";
 
