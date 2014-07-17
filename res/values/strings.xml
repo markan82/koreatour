@@ -6,10 +6,10 @@
     
     <string name="title_tourist">Tourist Attractions</string>
     <string name="msg_requesting_data">Requesting data ...</string>
-     <string name="msg_not_any_more">Not any more.</string>
+    <string name="msg_not_any_more">Not any more.</string>
+    <string name="msg_no_result_msg">There is no search results.</string>
     
     <string name="hint_keyword">검색어</string>
-    
-     <string name="btn_search">검색</string>
+    <string name="btn_search">검색</string>
 
 </resources>

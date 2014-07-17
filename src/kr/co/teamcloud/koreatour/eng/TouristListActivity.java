@@ -40,7 +40,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 	private ArrayList<HashMap<String, Object>> tourList = new ArrayList<HashMap<String, Object>>();
 
 	private ViewSwitcher loadingView;
-	private TextView textView;
+//	private TextView textView;
 	private EditText inKeyword;
 	private Button btnSearch;
 	private ListView listView;
@@ -78,7 +78,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tourlist_list);
 
-		textView = (TextView) findViewById(R.id.myText);
+//		textView = (TextView) findViewById(R.id.myText);
 		inKeyword = (EditText) findViewById(R.id.in_keyword);
 		btnSearch = (Button) findViewById(R.id.btn_search);
 		btnSearch.setOnClickListener(new OnClickListener() {
@@ -124,7 +124,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 			searchList();
 		} else {
 			// display error
-			textView.setText("No network connection available.");
+//			textView.setText("No network connection available.");
 		}
 	}
 	

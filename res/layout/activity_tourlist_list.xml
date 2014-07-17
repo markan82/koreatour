@@ -25,16 +25,32 @@
             android:singleLine="true"
             android:layout_toLeftOf="@id/btn_search" />
     </RelativeLayout>
-
-    <ListView
-        android:id="@+id/listView1"
+    
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </ListView>
+        android:layout_height="match_parent" >
 
-    <TextView
+	    <ListView
+	        android:id="@+id/listView1"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent" />
+
+	    <TextView
+	        android:background="@android:color/background_light"
+            android:id="@+id/noResultMsg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/msg_no_result_msg"
+            android:textSize="20sp"
+            android:textStyle="normal"
+            android:visibility="gone" />
+	    	    
+	</FrameLayout>
+
+    <!-- <TextView
         android:id="@+id/myText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" /> -->
 
 </LinearLayout>
