@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import kr.co.teamcloud.koreatour.api.VisitkoreaService;
 import kr.co.teamcloud.koreatour.common.CommonConstants;
 import kr.co.teamcloud.koreatour.util.JSONParser;
 
@@ -192,21 +193,40 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 						map.put(TAG_TOTAL_COUNT, body.getInt(TAG_TOTAL_COUNT));
 						
 						JSONObject items = body.getJSONObject(TAG_ITEMS);
-						JSONArray item = items.getJSONArray(TAG_ITEM);
-						for (int i = 0, l = item.length(); i < l; i++) {
-							JSONObject obj = item.getJSONObject(i);
-	
-							String contentId = obj.getString(TAG_CONTENT_ID);
+						Object item = items.get(TAG_ITEM);
+
+			  			if(item instanceof JSONArray) {	//item 이 복수 건수인 경우				
+			  				JSONArray array = (JSONArray) item;
+			  				for (int i = 0, l = array.length(); i < l; i++) {
+								JSONObject obj = array.getJSONObject(i);
+								String contentId = obj.getString(TAG_CONTENT_ID);
+								String contentTypeId = obj.getString(TAG_CONTENT_TYPE_ID);
+								String title = obj.getString(TAG_TITLE);
+								String image = null;
+								if( obj.has(TAG_FIRSTIMAGE2) ) image = obj.getString(TAG_FIRSTIMAGE2);
+								//주소
+								String addr = null;
+								if ( obj.has(TAG_ADDR1) ) addr = obj.getString(TAG_ADDR1);
+								if ( obj.has(TAG_ADDR2) ) addr += " " + obj.getString(TAG_ADDR2);
+								HashMap<String, Object> data = new HashMap<String, Object>();
+								data.put("contentId", contentId);
+								data.put("contentTypeId", contentTypeId);
+								data.put("title", title);
+								data.put("addr", addr.trim());
+								data.put("image", image);
+								tourList.add(data);
+							}
+			  			} else if(item instanceof JSONObject) {	//item 이 단수 건수인 경우				
+			  				JSONObject obj = (JSONObject) item;
+			  				String contentId = obj.getString(TAG_CONTENT_ID);
 							String contentTypeId = obj.getString(TAG_CONTENT_TYPE_ID);
 							String title = obj.getString(TAG_TITLE);
 							String image = null;
 							if( obj.has(TAG_FIRSTIMAGE2) ) image = obj.getString(TAG_FIRSTIMAGE2);
-							
 							//주소
 							String addr = null;
 							if ( obj.has(TAG_ADDR1) ) addr = obj.getString(TAG_ADDR1);
 							if ( obj.has(TAG_ADDR2) ) addr += " " + obj.getString(TAG_ADDR2);
-	
 							HashMap<String, Object> data = new HashMap<String, Object>();
 							data.put("contentId", contentId);
 							data.put("contentTypeId", contentTypeId);
@@ -214,7 +234,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 							data.put("addr", addr.trim());
 							data.put("image", image);
 							tourList.add(data);
-						}
+			  			}
 					} 
 				}
 
