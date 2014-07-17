@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
         <Button
+            style="?android:attr/buttonStyleSmall"
             android:id="@+id/btn_search"
             android:text="@string/btn_search"           
             android:layout_width="wrap_content"
