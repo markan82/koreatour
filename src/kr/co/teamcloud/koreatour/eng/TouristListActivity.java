@@ -5,7 +5,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import kr.co.teamcloud.koreatour.api.VisitkoreaService;
 import kr.co.teamcloud.koreatour.common.CommonConstants;
 import kr.co.teamcloud.koreatour.util.JSONParser;
 
@@ -138,7 +137,6 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 		StringBuilder sb = new StringBuilder();
 		if( keyword != null && !"".equals(keyword) ) { //키워드 검색
 			sb.append(searchKeywordUrl);
-//			sb.append("&keyword=").append(keyword);
 			try {			
 				sb.append("&keyword=").append(URLEncoder.encode(keyword, "utf-8"));
 			} catch (IOException e) {}
@@ -149,8 +147,9 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 		sb.append("&pageNo=").append(pageNo);
 		sb.append("&arrange=").append(arrange);
 		sb.append("&contentTypeId=").append(contentTypeId);
+		if( areaCode != null && !"".equals(areaCode)) sb.append("&areaCode=").append(areaCode);
+	  	if( sigunguCode != null && !"".equals(sigunguCode)) sb.append("&sigunguCode=").append(sigunguCode);
 		
-//		isLockListView = false;
 		new TourListAsyncTask().execute(sb.toString());
 	}
 	
