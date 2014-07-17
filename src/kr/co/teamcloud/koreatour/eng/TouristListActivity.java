@@ -45,13 +45,13 @@ public class TouristListActivity extends TourBaseActivity {
 	//지역 검색 URL
 	private String areaBasedListUrl = CommonConstants.END_POINT_URL
 			+ "areaBasedList"
-			+ "?MobileOS=AND&MobileApp=koreaTour&_type=json&listYN=Y&serviceKey="
+			+ "?MobileOS=AND&MobileApp="+CommonConstants.MOBILE_APP+"&_type=json&listYN=Y&serviceKey="
 			+ CommonConstants.SERVICE_KEY;
 	
 	//키워드 검색 URL
 	private String searchKeywordUrl = CommonConstants.END_POINT_URL
 			+ "searchKeyword"
-			+ "?MobileOS=AND&MobileApp=koreaTour&_type=json&listYN=Y&serviceKey="
+			+ "?MobileOS=AND&MobileApp="+CommonConstants.MOBILE_APP+"&_type=json&listYN=Y&serviceKey="
 			+ CommonConstants.SERVICE_KEY;
 
 	// 검색 조건
