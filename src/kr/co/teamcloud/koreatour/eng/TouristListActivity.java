@@ -41,6 +41,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 
 	private ViewSwitcher loadingView;
 //	private TextView textView;
+	private TextView noResultMsg;
 	private EditText inKeyword;
 	private Button btnSearch;
 	private ListView listView;
@@ -79,6 +80,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 		setContentView(R.layout.activity_tourlist_list);
 
 //		textView = (TextView) findViewById(R.id.myText);
+		noResultMsg = (TextView) findViewById(R.id.txtNoResultMsg);
 		inKeyword = (EditText) findViewById(R.id.in_keyword);
 		btnSearch = (Button) findViewById(R.id.btn_search);
 		btnSearch.setOnClickListener(new OnClickListener() {
@@ -208,7 +210,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 							data.put(TAG_ADDR1, addr);
 							tourList.add(data);
 						}
-					}
+					} 
 				}
 
 			} catch (JSONException e) {
@@ -230,24 +232,35 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 			
 			if ("0000".equals(result.get(TAG_RESULT_CODE)) )
 			{
-				simpleAdapter.notifyDataSetChanged();
-				if(pageNo == 1) listView.setSelectionFromTop(0, 0);
-				
-				//조회한 수와 검색 수가 같아지면 더보기 중단.
 				int totalCount = (Integer)result.get(TAG_TOTAL_COUNT);
-				if( totalCount <= tourList.size() ) {
-					isLockListView = true;	//더보기 불가능
-					loadingView.setVisibility(View.GONE);
-//					loadingView.showNext();
+				if( totalCount > 0) {
+					if( noResultMsg.getVisibility()==View.VISIBLE )
+						noResultMsg.setVisibility(View.GONE);
+					
+					simpleAdapter.notifyDataSetChanged();
+					if(pageNo == 1) listView.setSelectionFromTop(0, 0);
+					
+					//조회한 수와 검색 수가 같아지면 더보기 중단.
+					if( totalCount <= tourList.size() ) {
+						isLockListView = true;	//더보기 불가능
+						loadingView.setVisibility(View.GONE);
+//						loadingView.showNext();
+					} else {
+						isLockListView = false;	//더보기 가능
+						loadingView.setVisibility(View.VISIBLE);
+//						loadingView.showPrevious();
+					}
 				} else {
-					isLockListView = false;	//더보기 가능
-					loadingView.setVisibility(View.VISIBLE);
-//					loadingView.showPrevious();
+					//검색된 결과가 없음.
+					if( noResultMsg.getVisibility()==View.GONE )
+						noResultMsg.setVisibility(View.VISIBLE);
+					isLockListView = true;	//더보기 불가능
 				}
 			}
 			else
 			{
-				result.get(TAG_RESULT_MSG);//TODO: 에러 메시지 출력
+				//result.get(TAG_RESULT_MSG);//TODO: 에러 메시지 출력
+				Toast.makeText(TouristListActivity.this, "[ERROR] " + result.get(TAG_RESULT_MSG), Toast.LENGTH_SHORT).show();
 			}
 		}
 	}

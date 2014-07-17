@@ -37,7 +37,7 @@
 
 	    <TextView
 	        android:background="@android:color/background_light"
-            android:id="@+id/noResultMsg"
+            android:id="@+id/txtNoResultMsg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
