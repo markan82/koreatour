@@ -39,6 +39,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 	private TextView textView;
 	private EditText inKeyword;
 	private Button btnSearch;
+	private ListView listView;
 
 	private SimpleAdapter simpleAdapter;
 
@@ -90,12 +91,14 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 						TAG_TITLE, TAG_ADDR1 }, new int[] { android.R.id.text1,
 						android.R.id.text2 });
 
-		ListView listView = (ListView)findViewById(R.id.listView1);
+		listView = (ListView)findViewById(R.id.listView1);
 		//푸터를 등록합니다. setAdapter 이전에 해야함
 		loadingView = View.inflate(this, R.layout.loading_progress, null);
 		listView.addFooterView(loadingView);
 		listView.setAdapter(simpleAdapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		listView.setOnScrollListener(this);
+//		listView.setOnItemClickListener(this);
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				HashMap<String, Object> data = tourList.get(position);
@@ -219,6 +222,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 			if ("0000".equals(result.get(TAG_RESULT_CODE)) )
 			{
 				simpleAdapter.notifyDataSetChanged();
+				if(pageNo == 1) listView.setSelectionFromTop(0, 0);
 				
 				//조회한 수와 검색 수가 같아지면 더보기 중단.
 				int totalCount = (Integer)result.get(TAG_TOTAL_COUNT);
