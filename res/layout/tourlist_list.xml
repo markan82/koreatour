@@ -9,16 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-        
         <Button
             android:id="@+id/btn_search"
             android:text="@string/btn_search"           
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true" />
-        
         <EditText
             android:id="@+id/in_keyword"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/hint_keyword"
             android:layout_alignParentLeft="true"
