@@ -82,7 +82,7 @@ public class TouristListActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tourlist_list);
+		setContentView(R.layout.activity_tourlist_list);
 
 		textView = (TextView) findViewById(R.id.myText);
 		inKeyword = (EditText) findViewById(R.id.in_keyword);
