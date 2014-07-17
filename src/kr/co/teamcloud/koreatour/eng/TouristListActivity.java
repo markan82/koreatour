@@ -92,9 +92,8 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 			@Override
 			public void onClick(View v) {
 //				Toast.makeText(TouristListActivity.this, keyword, Toast.LENGTH_LONG).show();
-				pageNo = 1; //페이지 번호 초기화
-				keyword = inKeyword.getText().toString();
-				tourList.clear();		//목록 초기화
+				pageNo = 1; 		//페이지 번호 초기화
+				tourList.clear();	//목록 초기화
 				searchList();
 			}
 		});
@@ -134,6 +133,8 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 	}
 	
 	private void searchList() {	
+		keyword = inKeyword.getText().toString();
+		
 		StringBuilder sb = new StringBuilder();
 		if( keyword != null && !"".equals(keyword) ) { //키워드 검색
 			sb.append(searchKeywordUrl);
