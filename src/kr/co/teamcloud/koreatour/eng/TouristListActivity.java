@@ -32,7 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
-public class TouristListActivity extends TourBaseActivity implements OnScrollListener {
+public class TouristListActivity extends TourBaseActivity implements OnScrollListener, OnClickListener, OnItemClickListener {
 	private final String TAG = "TouristListActivity";
 	
 	private ArrayList<HashMap<String, Object>> tourList = new ArrayList<HashMap<String, Object>>();
@@ -42,11 +42,14 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 	private TextView noResultMsg;
 	private EditText inKeyword;
 	private Button btnSearch;
+	private Button btnSearchArea;
 	private ListView listView;
 
 	private TouristListAdapter adapter;
 
 	private boolean isLockListView = true;	//스크롤시 자동으로 데이터를 조회하는지 여부(true:조회하지 않음)
+	
+	private final int REQCODE_AREA_ACTIVITY = 1;
 	
 	//지역 검색 URL
 	private String areaBasedListUrl = CommonConstants.END_POINT_URL
@@ -79,8 +82,11 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 
 //		textView = (TextView) findViewById(R.id.myText);
 		noResultMsg = (TextView) findViewById(R.id.txtNoResultMsg);
-		inKeyword = (EditText) findViewById(R.id.in_keyword);
-		btnSearch = (Button) findViewById(R.id.btn_search);
+		btnSearchArea = (Button) findViewById(R.id.btnSearchArea);
+		btnSearchArea.setOnClickListener(this);
+		
+		inKeyword = (EditText) findViewById(R.id.inKeyword);
+		btnSearch = (Button) findViewById(R.id.btnSearch);
 		btnSearch.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -265,4 +271,42 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 
 	@Override
 	public void onScrollStateChanged(AbsListView arg0, int arg1) {}
+	
+	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		super.onActivityResult(requestCode, resultCode, intent);
+
+		switch (requestCode) {
+			case REQCODE_AREA_ACTIVITY: // requestCode가 AREA_ACTIVITY인 케이스
+				if (resultCode == RESULT_OK) { // AREA_ACTIVITY에서 넘겨진 resultCode가 OK일때만 실행
+					areaCode = intent.getStringExtra("areaCode");
+					sigunguCode = intent.getStringExtra("sigunguCode");
+					areaName = intent.getStringExtra("areaName");
+					sigunguName = intent.getStringExtra("sigunguName");
+	
+					if (sigunguName != null && !"".equals(sigunguName))
+						btnSearchArea.setText(areaName + " > " + sigunguName);
+					else
+						btnSearchArea.setText(areaName);
+	
+					pageNo = 1;				//페이지 초기화
+					tourList.clear();		//목록 초기화
+					searchList();
+				}
+				break;
+		}
+	}
+		
+	@Override
+	public void onClick(View view){
+		Intent intent = null;
+		switch( view.getId() ){
+			case R.id.btnSearchArea:
+				intent = new Intent(this, AreaListActivity.class);
+				startActivityForResult(intent, REQCODE_AREA_ACTIVITY);
+			break;
+		}			
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {}
 }

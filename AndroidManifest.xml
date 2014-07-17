@@ -39,6 +39,9 @@
 		    android:label="@string/title_tourist"
 		    android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+		
+		<activity android:name=".AreaListActivity" android:label="@string/title_arealist" android:theme="@android:style/Theme.Holo.Light.Dialog" android:screenOrientation="portrait" />
+		<activity android:name=".SigungoListActivity" android:theme="@android:style/Theme.Holo.Light.Dialog" android:screenOrientation="portrait" />
     </application>
 
 </manifest>

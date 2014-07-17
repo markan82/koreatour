@@ -9,21 +9,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
+		<Button
+            android:id="@+id/btnSearchArea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_all_area" />
         <Button
+            android:id="@+id/btnSearch"
             style="?android:attr/buttonStyleSmall"
-            android:id="@+id/btn_search"
             android:text="@string/btn_search"           
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true" />
         <EditText
-            android:id="@+id/in_keyword"
+            android:id="@+id/inKeyword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/hint_keyword"
             android:layout_alignParentLeft="true"
             android:singleLine="true"
-            android:layout_toLeftOf="@id/btn_search" />
+            android:layout_toRightOf="@id/btnSearchArea"
+            android:layout_toLeftOf="@id/btnSearch" />
     </RelativeLayout>
     
     <FrameLayout
