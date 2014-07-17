@@ -2,8 +2,6 @@ package kr.co.teamcloud.koreatour.eng;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import kr.co.teamcloud.koreatour.common.CommonConstants;
 import kr.co.teamcloud.koreatour.util.JSONParser;
@@ -12,7 +10,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -22,6 +19,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -31,17 +30,20 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class TouristListActivity extends TourBaseActivity {
+public class TouristListActivity extends TourBaseActivity implements OnScrollListener {
 	private final String TAG = "TouristListActivity";
 	
 	private ArrayList<HashMap<String, Object>> tourList = new ArrayList<HashMap<String, Object>>();
 
+	private View loadingView;
 	private TextView textView;
 	private EditText inKeyword;
 	private Button btnSearch;
 
 	private SimpleAdapter simpleAdapter;
 
+	private boolean isLockListView = true;	//스크롤시 자동으로 데이터를 조회하는지 여부(true:조회하지 않음)
+	
 	//지역 검색 URL
 	private String areaBasedListUrl = CommonConstants.END_POINT_URL
 			+ "areaBasedList"
@@ -60,6 +62,10 @@ public class TouristListActivity extends TourBaseActivity {
 	private String arrange = "B";	//정렬순서(인기순)
 	private int contentTypeId = 76;	//컨텐츠
 	private String keyword = "";
+	private String areaCode;		//지역코드
+	private String sigunguCode;		//시군구 코드
+	private String areaName;
+	private String sigunguName;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -75,16 +81,7 @@ public class TouristListActivity extends TourBaseActivity {
 			public void onClick(View v) {
 				keyword = inKeyword.getText().toString();
 				Toast.makeText(TouristListActivity.this, keyword, Toast.LENGTH_LONG).show();
-				if( !"".equals(keyword) ) {
-					//키워드 검색
-					StringBuilder sb = new StringBuilder(searchKeywordUrl);
-					sb.append("&numOfRows=").append(numOfRows);
-					sb.append("&pageNo=").append(pageNo);
-					sb.append("&arrange=").append(arrange);
-					sb.append("&contentTypeId=").append(contentTypeId);
-					sb.append("&keyword=").append(keyword);
-					new TourListAsyncTask().execute(sb.toString());
-				}
+				searchList();
 			}
 		});
 
@@ -94,6 +91,9 @@ public class TouristListActivity extends TourBaseActivity {
 						android.R.id.text2 });
 
 		ListView listView = (ListView)findViewById(R.id.listView1);
+		//푸터를 등록합니다. setAdapter 이전에 해야함
+		loadingView = View.inflate(this, R.layout.loading_progress, null);
+		listView.addFooterView(loadingView);
 		listView.setAdapter(simpleAdapter);
 		listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		listView.setOnItemClickListener(new OnItemClickListener() {
@@ -112,15 +112,40 @@ public class TouristListActivity extends TourBaseActivity {
 		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 		if (networkInfo != null && networkInfo.isConnected()) {
-			StringBuilder sb = new StringBuilder(areaBasedListUrl);
-			sb.append("&numOfRows=").append(numOfRows);
-			sb.append("&pageNo=").append(pageNo);
-			sb.append("&arrange=").append(arrange);
-			sb.append("&contentTypeId=").append(contentTypeId);
-			new TourListAsyncTask().execute(sb.toString());
+			searchList();
 		} else {
 			// display error
 			textView.setText("No network connection available.");
+		}
+	}
+	
+	private void searchList() {	
+		StringBuilder sb = new StringBuilder();
+		if( !"".equals(keyword) ) { //키워드 검색
+			sb.append(searchKeywordUrl);
+			sb.append("&keyword=").append(keyword);
+		} else {
+			sb.append(areaBasedListUrl);
+		}
+		sb.append("&numOfRows=").append(numOfRows);
+		sb.append("&pageNo=").append(pageNo);
+		sb.append("&arrange=").append(arrange);
+		sb.append("&contentTypeId=").append(contentTypeId);
+		
+//		isLockListView = false;
+		new TourListAsyncTask().execute(sb.toString());
+	}
+	
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		if( isLockListView == false ) {
+			//현재 가장 처음 보이는 셀번호와 보여지는 셀번호를 더한값이 전체의 숫자와 동일하면 가장 아래로 스크롤되었다고 판단.
+			int count = totalItemCount - visibleItemCount;
+			if( totalItemCount!=0 && firstVisibleItem >= count ) {
+				pageNo = pageNo + 1;
+				isLockListView = true;
+				searchList();
+			}
 		}
 	}
 
@@ -139,6 +164,7 @@ public class TouristListActivity extends TourBaseActivity {
 
 				map.put(TAG_RESULT_CODE, resultCode);
 				map.put(TAG_RESULT_MSG, resultMsg);
+				map.put(TAG_TOTAL_COUNT, 0);
 
 				if ( "0000".equals(resultCode) ) {
 					//TODO: 파일 캐쉬 구현 예정
@@ -147,6 +173,8 @@ public class TouristListActivity extends TourBaseActivity {
 					
 					if( body.getInt(TAG_TOTAL_COUNT) > 0 ) 
 					{
+						map.put(TAG_TOTAL_COUNT, body.getInt(TAG_TOTAL_COUNT));
+						
 						JSONObject items = body.getJSONObject(TAG_ITEMS);
 						JSONArray item = items.getJSONArray(TAG_ITEM);
 						for (int i = 0, l = item.length(); i < l; i++) {
@@ -187,10 +215,28 @@ public class TouristListActivity extends TourBaseActivity {
 		@Override
 		protected void onPostExecute(HashMap<String, Object> result) {
 			Toast.makeText(TouristListActivity.this, "[" + result.get(TAG_RESULT_CODE) + "] " + result.get(TAG_RESULT_MSG), Toast.LENGTH_LONG).show();
-			if ("0000".equals(result.get(TAG_RESULT_CODE)))
+			
+			if ("0000".equals(result.get(TAG_RESULT_CODE)) )
+			{
 				simpleAdapter.notifyDataSetChanged();
+				
+				//조회한 수와 검색 수가 같아지면 더보기 중단.
+				int totalCount = (Integer)result.get(TAG_TOTAL_COUNT);
+				if( totalCount <= tourList.size() ) {
+					isLockListView = true;	//더보기 불가능
+					loadingView.setVisibility(View.GONE);
+				} else {
+					isLockListView = false;	//더보기 가능
+					loadingView.setVisibility(View.VISIBLE);
+				}
+			}
 			else
-				;//TODO: 에러 메시지 출력
+			{
+				result.get(TAG_RESULT_MSG);//TODO: 에러 메시지 출력
+			}
 		}
 	}
+
+	@Override
+	public void onScrollStateChanged(AbsListView arg0, int arg1) {}
 }

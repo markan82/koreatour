@@ -16,7 +16,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -180,5 +183,24 @@ public class MainActivity extends Activity
 				try { is.close(); } catch(IOException e){}
 			} 				
 		}
+	}
+	
+	@Override
+	public void onBackPressed() {
+		//super.onBackPressed();
+		Builder d = new AlertDialog.Builder(this);
+		d.setMessage("정말 종료하시겠습니까?");
+		d.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				// process전체 종료
+				finish();
+			}
+		});
+		d.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		d.show();
 	}
 }

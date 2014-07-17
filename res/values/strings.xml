@@ -3,6 +3,9 @@
 
     <string name="hello">Hello World, MainActivity!</string>
     <string name="app_name">Tour in Korea</string>
+    
+    <string name="title_tourist">Tourist Attractions</string>
+    
     <string name="hint_keyword">검색어</string>
     
      <string name="btn_search">검색</string>

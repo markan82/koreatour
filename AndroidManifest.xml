@@ -30,12 +30,14 @@
         </activity>
 		<activity 
 		    android:name=".TouristListActivity" 
+		    android:label="@string/title_tourist"
 		    android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation" 
             android:windowSoftInputMode="stateHidden" />
 		<activity 
 		    android:name=".TouristDetailActivity" 
+		    android:label="@string/title_tourist"
 		    android:launchMode="singleTop"
             android:screenOrientation="portrait" />
     </application>
