@@ -26,10 +26,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/hint_keyword"
-            android:layout_alignParentLeft="true"
             android:singleLine="true"
             android:layout_toRightOf="@id/btnSearchArea"
-            android:layout_toLeftOf="@id/btnSearch" />
+            android:layout_toLeftOf="@id/btnSearch"
+            android:layout_centerVertical="true" />
     </RelativeLayout>
     
     <FrameLayout
