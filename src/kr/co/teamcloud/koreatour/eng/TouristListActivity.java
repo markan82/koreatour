@@ -1,5 +1,7 @@
 package kr.co.teamcloud.koreatour.eng;
 
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -82,8 +84,10 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 		btnSearch.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+//				Toast.makeText(TouristListActivity.this, keyword, Toast.LENGTH_LONG).show();
+				pageNo = 1; //페이지 번호 초기화
 				keyword = inKeyword.getText().toString();
-				Toast.makeText(TouristListActivity.this, keyword, Toast.LENGTH_LONG).show();
+				tourList.clear();		//목록 초기화
 				searchList();
 			}
 		});
@@ -104,7 +108,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				HashMap<String, Object> data = tourList.get(position);
-				Toast.makeText(TouristListActivity.this, "" + data.get(TAG_TITLE), Toast.LENGTH_LONG).show();
+//				Toast.makeText(TouristListActivity.this, "" + data.get(TAG_TITLE), Toast.LENGTH_LONG).show();
 				Intent intent = new Intent(TouristListActivity.this, TouristDetailActivity.class);
 				intent.putExtra(TAG_CONTENT_ID, (String)data.get(TAG_CONTENT_ID));
 				intent.putExtra(TAG_CONTENT_TYPE_ID, (String)data.get(TAG_CONTENT_TYPE_ID));
@@ -126,9 +130,12 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 	
 	private void searchList() {	
 		StringBuilder sb = new StringBuilder();
-		if( !"".equals(keyword) ) { //키워드 검색
+		if( keyword != null && !"".equals(keyword) ) { //키워드 검색
 			sb.append(searchKeywordUrl);
-			sb.append("&keyword=").append(keyword);
+//			sb.append("&keyword=").append(keyword);
+			try {			
+				sb.append("&keyword=").append(URLEncoder.encode(keyword, "utf-8"));
+			} catch (IOException e) {}
 		} else {
 			sb.append(areaBasedListUrl);
 		}
@@ -219,7 +226,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 
 		@Override
 		protected void onPostExecute(HashMap<String, Object> result) {
-			Toast.makeText(TouristListActivity.this, "[" + result.get(TAG_RESULT_CODE) + "] " + result.get(TAG_RESULT_MSG), Toast.LENGTH_LONG).show();
+//			Toast.makeText(TouristListActivity.this, "[" + result.get(TAG_RESULT_CODE) + "] " + result.get(TAG_RESULT_MSG), Toast.LENGTH_LONG).show();
 			
 			if ("0000".equals(result.get(TAG_RESULT_CODE)) )
 			{
