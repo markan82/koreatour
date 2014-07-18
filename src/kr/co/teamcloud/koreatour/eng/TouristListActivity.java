@@ -150,7 +150,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 		if( areaCode != null && !"".equals(areaCode)) sb.append("&areaCode=").append(areaCode);
 	  	if( sigunguCode != null && !"".equals(sigunguCode)) sb.append("&sigunguCode=").append(sigunguCode);
 		
-		new TourListAsyncTask().execute(sb.toString());
+		new TourAsyncTask().execute(sb.toString());
 	}
 	
 	@Override
@@ -166,7 +166,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 		}
 	}
 
-	private class TourListAsyncTask extends AsyncTask<String, Void, HashMap<String, Object>> {
+	private class TourAsyncTask extends AsyncTask<String, Void, HashMap<String, Object>> {
 		@Override
 		protected HashMap<String, Object> doInBackground(String... args) {			
 			Log.d(TAG, "[url] " + args[0]);

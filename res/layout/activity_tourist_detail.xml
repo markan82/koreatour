@@ -22,7 +22,7 @@
 			android:layout_width="match_parent"
 			android:ellipsize="end"
 			android:gravity="left|center_vertical"
-			android:drawableLeft="@drawable/ic_launcher"
+			android:drawableLeft="@drawable/ic_arrow"
 			android:drawablePadding="5dip"
 			/>
 
@@ -30,13 +30,20 @@
 			android:layout_height="wrap_content"
 			android:text="Button"
 			android:layout_width="match_parent"
-			android:gravity="left|center_vertical"/>
+			android:ellipsize="end"
+			android:gravity="left|center_vertical"
+			android:drawableLeft="@drawable/ic_arrow"
+			android:drawablePadding="5dip"
+			/>
 
 		<Button
 			android:layout_height="wrap_content"
-			android:gravity="left|center_vertical"
 			android:text="Button"
-			android:layout_width="match_parent"/>
+			android:ellipsize="end"
+			android:gravity="left|center_vertical"
+			android:drawableLeft="@drawable/ic_arrow"
+			android:drawablePadding="5dip"
+			/>
 
 	</LinearLayout>
 
@@ -56,7 +63,7 @@
 			android:layout_height="wrap_content"
 			android:text="Text"
 			android:layout_width="match_parent"
-			android:id="@+id/txt_overview"/>
+			android:id="@+id/txtOverview"/>
 
 		<TextView
 			android:layout_height="wrap_content"
