@@ -17,9 +17,9 @@
 		android:orientation="vertical">
 
 		<Button
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="Button"
-			android:layout_width="match_parent"
 			android:ellipsize="end"
 			android:gravity="left|center_vertical"
 			android:drawableLeft="@drawable/ic_arrow"
@@ -27,9 +27,9 @@
 			/>
 
 		<Button
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="Button"
-			android:layout_width="match_parent"
 			android:ellipsize="end"
 			android:gravity="left|center_vertical"
 			android:drawableLeft="@drawable/ic_arrow"
@@ -37,6 +37,7 @@
 			/>
 
 		<Button
+		    android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="Button"
 			android:ellipsize="end"
