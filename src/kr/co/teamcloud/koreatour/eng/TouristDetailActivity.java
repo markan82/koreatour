@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import kr.co.teamcloud.koreatour.R;
 import kr.co.teamcloud.koreatour.common.CommonConstants;
 import kr.co.teamcloud.koreatour.model.DetailImage;
 import kr.co.teamcloud.koreatour.model.DetailInfo;
@@ -48,10 +49,8 @@ public class TouristDetailActivity extends TourBaseActivity
     	@Override
     	protected void onPreExecute() {
     	    dialog = new ProgressDialog(TouristDetailActivity.this);
-//    	    dialog.setTitle("이미지 다운로드중");
-    	    dialog.setMessage("잠시만 기다리세요...");
-    	    dialog.setIndeterminate(true);
     	    dialog.setCancelable(true);
+    	    dialog.setMessage("Waiting...");
     	    dialog.show();
     	    super.onPreExecute();
     	}  
