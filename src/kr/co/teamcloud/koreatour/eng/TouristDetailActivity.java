@@ -17,7 +17,12 @@ import org.json.JSONObject;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class TouristDetailActivity extends TourBaseActivity
@@ -40,6 +45,21 @@ public class TouristDetailActivity extends TourBaseActivity
 		String contentId = getIntent().getStringExtra(TAG_CONTENT_ID);
 		String title = getIntent().getStringExtra(TAG_TITLE);
 		setTitle(title);
+		
+		findViewById(R.id.btnOverviewMore).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				int height = 100;
+				if(txtOverview.getLayoutParams().height != ViewGroup.LayoutParams.WRAP_CONTENT) {
+					height = ViewGroup.LayoutParams.WRAP_CONTENT;
+				}
+				LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+		                ViewGroup.LayoutParams.MATCH_PARENT,
+		                height,
+		                0.0F);
+				txtOverview.setLayoutParams(params);
+			}
+		});
 		
 		new TourAsyncTask().execute(contentTypeId, contentId);
     }
@@ -376,7 +396,7 @@ public class TouristDetailActivity extends TourBaseActivity
 
 		@Override
 		protected void onPostExecute(HashMap<String, Object> result) {
-			txtOverview.setText((String)result.get(TAG_OVERVIEW));
+			txtOverview.setText(Html.fromHtml((String)result.get(TAG_OVERVIEW)));
 			if( dialog!=null && dialog.isShowing() ) 
 				dialog.dismiss();
 		}
