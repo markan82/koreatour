@@ -283,10 +283,10 @@ public class TouristDetailActivity extends TourBaseActivity
 							for(int i=0, s=arr.length(); i<s; i++) {
 								JSONObject obj = (JSONObject) arr.get(i);
 								DetailInfo detailInfo = new DetailInfo();
-				  				detailInfo.fldgubun	=(String)	obj.get(TAG_FLDGUBUN);	//	일련번호
+				  				detailInfo.fldgubun	=(Integer)	obj.get(TAG_FLDGUBUN);	//	일련번호
 				  				detailInfo.infoname	=(String)	obj.get(TAG_INFONAME);	//	제목
 				  				detailInfo.infotext	=(String)	obj.get(TAG_INFOTEXT);	//	내용
-				  				detailInfo.serialnum	=(String)	obj.get(TAG_SERIALNUM);	//	반복
+				  				detailInfo.serialnum	=(Integer)	obj.get(TAG_SERIALNUM);	//	반복
 				  				infoList.add(detailInfo);
 							}
 						}
