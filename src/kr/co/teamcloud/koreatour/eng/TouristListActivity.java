@@ -116,7 +116,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 				intent.putExtra(TAG_CONTENT_ID, (String)data.get(TAG_CONTENT_ID));
 				intent.putExtra(TAG_CONTENT_TYPE_ID, (String)data.get(TAG_CONTENT_TYPE_ID));
 				intent.putExtra(TAG_TITLE, (String)data.get(TAG_TITLE));
-				// startActivity(intent);
+				startActivity(intent);
 			}
 		});
 
@@ -269,11 +269,11 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 					if( totalCount <= tourList.size() ) {
 						isLockListView = true;	//더보기 불가능
 						loadingView.setVisibility(View.GONE);
-//						loadingView.showNext();
+						//loadingView.showNext();
 					} else {
 						isLockListView = false;	//더보기 가능
 						loadingView.setVisibility(View.VISIBLE);
-//						loadingView.showPrevious();
+						//loadingView.showPrevious();
 					}
 				} else {
 					//검색된 결과가 없음.
