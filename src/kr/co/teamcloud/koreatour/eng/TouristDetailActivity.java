@@ -439,7 +439,7 @@ public class TouristDetailActivity extends TourBaseActivity
 			if(result.get("homepageUrl")!=null) {
 				final String homepageUrl = (String)result.get("homepageUrl");
 				btnSite.setText(homepageUrl);
-				btnTel.setOnClickListener(new OnClickListener() {
+				btnSite.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						Intent intent = new Intent(Intent.ACTION_VIEW);
