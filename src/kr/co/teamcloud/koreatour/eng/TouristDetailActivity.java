@@ -15,6 +15,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -22,12 +24,18 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TouristDetailActivity extends TourBaseActivity
 {
 	private final String TAG = "TouristDetailActivity";
+	
+	private Button btnMap;
+	private Button btnTel;
+	private Button btnSite;
 	
 	private TextView txtOverview;
 	private ProgressDialog dialog;
@@ -40,7 +48,10 @@ public class TouristDetailActivity extends TourBaseActivity
         setContentView(R.layout.activity_tourist_detail);
 		
         txtOverview = (TextView) findViewById(R.id.txtOverview);
-		
+        btnMap = (Button)findViewById(R.id.btnMap);
+        btnTel = (Button)findViewById(R.id.btnTel);
+        btnSite = (Button)findViewById(R.id.btnSite);
+        
 		String contentTypeId = getIntent().getStringExtra(TAG_CONTENT_TYPE_ID);
 		String contentId = getIntent().getStringExtra(TAG_CONTENT_ID);
 		String title = getIntent().getStringExtra(TAG_TITLE);
@@ -49,7 +60,7 @@ public class TouristDetailActivity extends TourBaseActivity
 		findViewById(R.id.btnOverviewMore).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				int height = 100;
+				int height = 200;
 				if(txtOverview.getLayoutParams().height != ViewGroup.LayoutParams.WRAP_CONTENT) {
 					height = ViewGroup.LayoutParams.WRAP_CONTENT;
 				}
@@ -264,7 +275,6 @@ public class TouristDetailActivity extends TourBaseActivity
 				Log.w(TAG, url, e);
 			}
 			
-			
 			// 4. 반복정보 조회
 			url = CommonConstants.END_POINT_URL 
 					+ "detailInfo"
@@ -319,6 +329,8 @@ public class TouristDetailActivity extends TourBaseActivity
 				tel = infocenter;	
 			}
 			
+			String addr = addr1 + (addr2!=null?" " + addr2:"");
+			
 			//전화번호에서 번호만 파싱
 			String telNum = null;
 			if( tel != null && !"".equals(tel.trim())) {
@@ -355,6 +367,7 @@ public class TouristDetailActivity extends TourBaseActivity
 			}*/
 
 			HashMap<String, Object> result = new HashMap<String, Object>();
+			result.put("addr", addr);
 			result.put("telNum", telNum);
 			result.put("homepageUrl", homepageUrl);
 			result.put("imageList",imageList);
@@ -397,6 +410,45 @@ public class TouristDetailActivity extends TourBaseActivity
 		@Override
 		protected void onPostExecute(HashMap<String, Object> result) {
 			txtOverview.setText(Html.fromHtml((String)result.get(TAG_OVERVIEW)));
+			if(result.get("addr")!=null) {
+				final double mapx = (Double)result.get(TAG_MAPX);
+				final double mapy = (Double)result.get(TAG_MAPY);
+				final int mlevel = (Integer)result.get(TAG_MLEVEL);
+				btnMap.setText((String)result.get("addr"));
+				btnMap.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Toast.makeText(TouristDetailActivity.this, "mapx: " + mapx + ", mapy: " + mapy + ", mlevel: " + mlevel, Toast.LENGTH_SHORT).show();
+					}
+				});
+			}
+			
+			if(result.get("telNum")!=null) {
+				final String telNum = (String)result.get("telNum");
+				btnTel.setText(telNum);
+				btnTel.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Intent intent = new Intent(Intent.ACTION_CALL);
+						intent.setData(Uri.parse(telNum));
+				        startActivity(intent);
+					}
+				});
+			}
+			
+			if(result.get("homepageUrl")!=null) {
+				final String homepageUrl = (String)result.get("homepageUrl");
+				btnSite.setText(homepageUrl);
+				btnTel.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Intent intent = new Intent(Intent.ACTION_VIEW);
+						intent.setData(Uri.parse(homepageUrl));
+				        startActivity(intent);
+					}
+				});
+			}
+			
 			if( dialog!=null && dialog.isShowing() ) 
 				dialog.dismiss();
 		}

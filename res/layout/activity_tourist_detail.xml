@@ -20,9 +20,9 @@
 			android:orientation="vertical">
 	
 			<Button
+			    android:id="@+id/btnMap"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:text="Button"
 				android:ellipsize="end"
 				android:gravity="left|center_vertical"
 				android:drawableLeft="@drawable/ic_arrow"
@@ -30,9 +30,9 @@
 				/>
 	
 			<Button
+			    android:id="@+id/btnTel"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:text="Button"
 				android:ellipsize="end"
 				android:gravity="left|center_vertical"
 				android:drawableLeft="@drawable/ic_arrow"
@@ -40,9 +40,9 @@
 				/>
 	
 			<Button
+			    android:id="@+id/btnSite"
 			    android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:text="Button"
 				android:ellipsize="end"
 				android:gravity="left|center_vertical"
 				android:drawableLeft="@drawable/ic_arrow"
