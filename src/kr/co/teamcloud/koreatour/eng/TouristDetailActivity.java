@@ -122,33 +122,28 @@ public class TouristDetailActivity extends TourBaseActivity
 				String resultMsg = header.getString(TAG_RESULT_MSG);
 				if ( "0000".equals(resultCode) ) {
 					JSONObject body = reponse.getJSONObject(TAG_BODY);
-					if( body.getInt(TAG_TOTAL_COUNT) > 0 ) {
-						JSONObject items = body.getJSONObject(TAG_ITEMS);
-						Object item = items.get(TAG_ITEM);
-						if(item instanceof JSONObject) {	//item 이 단수 건수인 경우				
-			  				JSONObject obj = (JSONObject) item;
-			  				createdtime	=(String)	obj.get(TAG_CREATEDTIME);	// 등록일
-							homepage = (String) obj.get(TAG_HOMEPAGE); // 홈페이지 주소
-							modifiedtime = (String) obj.get(TAG_MODIFIEDTIME); // 수정일
-							tel = (String) obj.get(TAG_TEL); // 전화번호
-							telname = (String) obj.get(TAG_TELNAME); // 전화번호명
-							firstimage = (String) obj.get(TAG_FIRSTIMAGE); // 대표이미지(원본)
-							firstimage2 = (String) obj.get(TAG_FIRSTIMAGE2); // 대표이미지(썸네일)
-							areacode = (String) obj.get(TAG_AREACODE); // 지역코드
-							sigungucode = (String) obj.get(TAG_SIGUNGUCODE); // 시군구코드
-							cat1 = (String) obj.get(TAG_CAT1); // 대분류
-							cat2 = (String) obj.get(TAG_CAT2); // 중분류
-							cat3 = (String) obj.get(TAG_CAT3); // 소분류
-							addr1 = (String) obj.get(TAG_ADDR1); // 주소
-							addr2 = (String) obj.get(TAG_ADDR2); // 상세주소
-							zipcode = (String) obj.get(TAG_ZIPCODE); // 우편번호
-							mapx = (String) obj.get(TAG_MAPX); // GPS X좌표
-							mapy = (String) obj.get(TAG_MAPY); // GPS Y좌표
-							mlevel = (String) obj.get(TAG_MLEVEL); // Map Level
-							overview = (String) obj.get(TAG_OVERVIEW); // 개요
-							directions = (String) obj.get(TAG_DIRECTIONS); // 길안내
-						}
-					}
+					JSONObject items = body.getJSONObject(TAG_ITEMS);
+	  				JSONObject obj = items.getJSONObject(TAG_ITEM);
+	  				createdtime	=(String)	obj.get(TAG_CREATEDTIME);	// 등록일
+					homepage = (String) obj.get(TAG_HOMEPAGE); // 홈페이지 주소
+					modifiedtime = (String) obj.get(TAG_MODIFIEDTIME); // 수정일
+					tel = (String) obj.get(TAG_TEL); // 전화번호
+					telname = (String) obj.get(TAG_TELNAME); // 전화번호명
+					firstimage = (String) obj.get(TAG_FIRSTIMAGE); // 대표이미지(원본)
+					firstimage2 = (String) obj.get(TAG_FIRSTIMAGE2); // 대표이미지(썸네일)
+					areacode = (String) obj.get(TAG_AREACODE); // 지역코드
+					sigungucode = (String) obj.get(TAG_SIGUNGUCODE); // 시군구코드
+					cat1 = (String) obj.get(TAG_CAT1); // 대분류
+					cat2 = (String) obj.get(TAG_CAT2); // 중분류
+					cat3 = (String) obj.get(TAG_CAT3); // 소분류
+					addr1 = (String) obj.get(TAG_ADDR1); // 주소
+					addr2 = (String) obj.get(TAG_ADDR2); // 상세주소
+					zipcode = (String) obj.get(TAG_ZIPCODE); // 우편번호
+					mapx = (String) obj.get(TAG_MAPX); // GPS X좌표
+					mapy = (String) obj.get(TAG_MAPY); // GPS Y좌표
+					mlevel = (String) obj.get(TAG_MLEVEL); // Map Level
+					overview = (String) obj.get(TAG_OVERVIEW); // 개요
+					directions = (String) obj.get(TAG_DIRECTIONS); // 길안내
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -192,7 +187,7 @@ public class TouristDetailActivity extends TourBaseActivity
 						} else if(item instanceof JSONArray) {
 							JSONArray arr = (JSONArray) item;
 							for(int i=0, s=arr.length(); i<s; i++) {
-								JSONObject obj = (JSONObject) arr.get(i);
+								JSONObject obj = arr.getJSONObject(i);
 								DetailImage detailImage = new DetailImage();
 				  				detailImage.imagename = (String)obj.get(TAG_IMAGENAME); // 이미지명
 				  				detailImage.originimgurl = (String) obj.get(TAG_ORIGINIMGURL); // 원본
@@ -228,21 +223,21 @@ public class TouristDetailActivity extends TourBaseActivity
 						Object item = items.get(TAG_ITEM);
 						if(item instanceof JSONObject) {	//item 이 단수 건수인 경우				
 			  				JSONObject obj = (JSONObject) item;
-			  				accomcount	=(String)	obj.get(TAG_ACCOMCOUNT);	//	수용인원
+			  				if(obj.has(TAG_ACCOMCOUNT)) accomcount = obj.getString(TAG_ACCOMCOUNT);	//	수용인원
 //			  				chkbabycarriage	=(String)	obj.get(TAG_CHKBABYCARRIAGE);	//	유모차
 //			  				chkcreditcard	=(String)	obj.get(TAG_CHKCREDITCARD);	//	신용카드
 //			  				chkpet	=(String)	obj.get(TAG_CHKPET);	//	애완동물
-			  				expagerange	=(String)	obj.get(TAG_EXPAGERANGE);	//	체험가능
-			  				expguide	=(String)	obj.get(TAG_EXPGUIDE);	//	체험안내
-			  				heritage1	=(String)	obj.get(TAG_HERITAGE1);	//	세계
+			  				if(obj.has(TAG_EXPAGERANGE)) expagerange = obj.getString(TAG_EXPAGERANGE);	//	체험가능
+			  				if(obj.has(TAG_EXPGUIDE)) expguide	=(String)	obj.get(TAG_EXPGUIDE);	//	체험안내
+			  				if(obj.has(TAG_HERITAGE1)) heritage1	=(String)	obj.get(TAG_HERITAGE1);	//	세계
 //			  				heritage2	=(String)	obj.get(TAG_HERITAGE2);	//	세계
 //			  				heritage3	=(String)	obj.get(TAG_HERITAGE3);	//	세계
-			  				infocenter	=(String)	obj.get(TAG_INFOCENTER);	//	문의
-			  				opendate	=(String)	obj.get(TAG_OPENDATE);	//	개장일
-			  				parking	=(String)	obj.get(TAG_PARKING);	//	주차시설
-			  				restdate	=(String)	obj.get(TAG_RESTDATE);	//	쉬는날
-			  				useseason	=(String)	obj.get(TAG_USESEASON);	//	이용시기
-			  				usetime	=(String)	obj.get(TAG_USETIME);	//	이용시간
+			  				if(obj.has(TAG_INFOCENTER)) infocenter	=(String)	obj.get(TAG_INFOCENTER);	//	문의
+			  				if(obj.has(TAG_OPENDATE)) opendate	=(String)	obj.get(TAG_OPENDATE);	//	개장일
+			  				if(obj.has(TAG_PARKING)) parking	=(String)	obj.get(TAG_PARKING);	//	주차시설
+			  				if(obj.has(TAG_RESTDATE)) restdate	=(String)	obj.get(TAG_RESTDATE);	//	쉬는날
+			  				if(obj.has(TAG_USESEASON)) useseason	=(String)	obj.get(TAG_USESEASON);	//	이용시기
+			  				if(obj.has(TAG_USETIME)) usetime	=(String)	obj.get(TAG_USETIME);	//	이용시간
 						} 
 					}
 				}
@@ -273,15 +268,15 @@ public class TouristDetailActivity extends TourBaseActivity
 						if(item instanceof JSONObject) {	//item 이 단수 건수인 경우				
 			  				JSONObject obj = (JSONObject) item;
 			  				DetailInfo detailInfo = new DetailInfo();
-			  				detailInfo.fldgubun	=(String)	obj.get(TAG_FLDGUBUN);	//	일련번호
+			  				detailInfo.fldgubun	=(Integer)	obj.get(TAG_FLDGUBUN);	//	일련번호
 			  				detailInfo.infoname	=(String)	obj.get(TAG_INFONAME);	//	제목
 			  				detailInfo.infotext	=(String)	obj.get(TAG_INFOTEXT);	//	내용
-			  				detailInfo.serialnum	=(String)	obj.get(TAG_SERIALNUM);	//	반복
+			  				detailInfo.serialnum	=(Integer)	obj.get(TAG_SERIALNUM);	//	반복
 			  				infoList.add(detailInfo);
 						} else if(item instanceof JSONArray) {
 							JSONArray arr = (JSONArray) item;
 							for(int i=0, s=arr.length(); i<s; i++) {
-								JSONObject obj = (JSONObject) arr.get(i);
+								JSONObject obj = arr.getJSONObject(i);
 								DetailInfo detailInfo = new DetailInfo();
 				  				detailInfo.fldgubun	=(Integer)	obj.get(TAG_FLDGUBUN);	//	일련번호
 				  				detailInfo.infoname	=(String)	obj.get(TAG_INFONAME);	//	제목
@@ -384,7 +379,8 @@ public class TouristDetailActivity extends TourBaseActivity
 		@Override
 		protected void onPostExecute(HashMap<String, Object> result) {
 			txtOverview.setText((String)result.get(TAG_OVERVIEW));
-			dialog.hide();
+			if( dialog!=null && dialog.isShowing() ) 
+				dialog.dismiss();
 		}
 	}
 }
