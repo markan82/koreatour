@@ -60,24 +60,24 @@ public class TouristDetailActivity extends TourBaseActivity
 			String contentId = args[1];
 			Log.d(TAG, "[param] contentTypeId: " + contentTypeId + ", contentId: " + contentId);
 
-			String	createdtime	=null;
+			long	createdtime	=0;
 			String	homepage	=null;
-			String	modifiedtime	=null;
+			long	modifiedtime	=0;
 			String	tel	=null;
 			String	telname	=null;
 			String	firstimage	=null;
 			String	firstimage2	=null;
-			String	areacode	=null;
-			String	sigungucode	=null;
+			int	areacode	=0;
+			int	sigungucode	=0;
 			String	cat1	=null;
 			String	cat2	=null;
 			String	cat3	=null;
 			String	addr1	=null;
 			String	addr2	=null;
 			String	zipcode	=null;
-			String	mapx	=null;
-			String	mapy	=null;
-			String	mlevel	=null;
+			double	mapx	=0;
+			double	mapy	=0;
+			int	mlevel	=0;
 			String	overview	=null;
 			String	directions	=null;
 			
@@ -122,24 +122,24 @@ public class TouristDetailActivity extends TourBaseActivity
 					JSONObject body = reponse.getJSONObject(TAG_BODY);
 					JSONObject items = body.getJSONObject(TAG_ITEMS);
 	  				JSONObject obj = items.getJSONObject(TAG_ITEM);
-	  				createdtime	=(String)	obj.get(TAG_CREATEDTIME);	// 등록일
+	  				createdtime	= obj.getLong(TAG_CREATEDTIME);	// 등록일
 					homepage = (String) obj.get(TAG_HOMEPAGE); // 홈페이지 주소
-					modifiedtime = (String) obj.get(TAG_MODIFIEDTIME); // 수정일
+					modifiedtime = obj.getLong(TAG_MODIFIEDTIME); // 수정일
 					tel = (String) obj.get(TAG_TEL); // 전화번호
 					telname = (String) obj.get(TAG_TELNAME); // 전화번호명
 					firstimage = (String) obj.get(TAG_FIRSTIMAGE); // 대표이미지(원본)
 					firstimage2 = (String) obj.get(TAG_FIRSTIMAGE2); // 대표이미지(썸네일)
-					areacode = (String) obj.get(TAG_AREACODE); // 지역코드
-					sigungucode = (String) obj.get(TAG_SIGUNGUCODE); // 시군구코드
+					areacode = obj.getInt(TAG_AREACODE); // 지역코드
+					sigungucode = obj.getInt(TAG_SIGUNGUCODE); // 시군구코드
 					cat1 = (String) obj.get(TAG_CAT1); // 대분류
 					cat2 = (String) obj.get(TAG_CAT2); // 중분류
 					cat3 = (String) obj.get(TAG_CAT3); // 소분류
 					addr1 = (String) obj.get(TAG_ADDR1); // 주소
 					addr2 = (String) obj.get(TAG_ADDR2); // 상세주소
 					zipcode = (String) obj.get(TAG_ZIPCODE); // 우편번호
-					mapx = (String) obj.get(TAG_MAPX); // GPS X좌표
-					mapy = (String) obj.get(TAG_MAPY); // GPS Y좌표
-					mlevel = (String) obj.get(TAG_MLEVEL); // Map Level
+					mapx = obj.getDouble(TAG_MAPX); // GPS X좌표
+					mapy = obj.getDouble(TAG_MAPY); // GPS Y좌표
+					mlevel = obj.getInt(TAG_MLEVEL); // Map Level
 					overview = (String) obj.get(TAG_OVERVIEW); // 개요
 					directions = (String) obj.get(TAG_DIRECTIONS); // 길안내
 				}
