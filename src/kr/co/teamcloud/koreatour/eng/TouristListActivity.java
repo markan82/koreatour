@@ -111,11 +111,10 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				HashMap<String, Object> data = tourList.get(position);
-//				Toast.makeText(TouristListActivity.this, "" + data.get(TAG_TITLE), Toast.LENGTH_LONG).show();
 				Intent intent = new Intent(TouristListActivity.this, TouristDetailActivity.class);
-				intent.putExtra(TAG_CONTENT_ID, (String)data.get(TAG_CONTENT_ID));
-				intent.putExtra(TAG_CONTENT_TYPE_ID, (String)data.get(TAG_CONTENT_TYPE_ID));
-				intent.putExtra(TAG_TITLE, (String)data.get(TAG_TITLE));
+				intent.putExtra(TAG_CONTENT_ID, (String)data.get("contentId"));
+				intent.putExtra(TAG_CONTENT_TYPE_ID, (String)data.get("contentTypeId"));
+				intent.putExtra(TAG_TITLE, (String)data.get("title"));
 				startActivity(intent);
 			}
 		});
