@@ -409,7 +409,6 @@ public class TouristDetailActivity extends TourBaseActivity
 
 		@Override
 		protected void onPostExecute(HashMap<String, Object> result) {
-			txtOverview.setText(Html.fromHtml((String)result.get(TAG_OVERVIEW)));
 			if(result.get("addr")!=null) {
 				final double mapx = (Double)result.get(TAG_MAPX);
 				final double mapy = (Double)result.get(TAG_MAPY);
@@ -448,6 +447,8 @@ public class TouristDetailActivity extends TourBaseActivity
 					}
 				});
 			}
+			
+			txtOverview.setText(Html.fromHtml((String)result.get(TAG_OVERVIEW)));
 			
 			if( dialog!=null && dialog.isShowing() ) 
 				dialog.dismiss();
