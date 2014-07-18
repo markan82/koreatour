@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import kr.co.teamcloud.koreatour.R;
 import kr.co.teamcloud.koreatour.common.CommonConstants;
 import kr.co.teamcloud.koreatour.model.DetailImage;
 import kr.co.teamcloud.koreatour.model.DetailInfo;
