@@ -152,6 +152,7 @@ public class TouristDetailActivity extends TourBaseActivity
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
+				Log.w(TAG, url, e);
 			}
 			
 			//이미지 목록에 대표이미지 추가함.
@@ -204,6 +205,7 @@ public class TouristDetailActivity extends TourBaseActivity
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
+				Log.w(TAG, url, e);
 			}
 			
 			// 3. 소개정보 조회
@@ -246,6 +248,7 @@ public class TouristDetailActivity extends TourBaseActivity
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
+				Log.w(TAG, url, e);
 			}
 			
 			
@@ -291,6 +294,7 @@ public class TouristDetailActivity extends TourBaseActivity
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
+				Log.w(TAG, url, e);
 			}
 //			유형 1 : 등산로, 자연휴식년제 구역, 입산통제 구간, 개방 구간, 자연휴식년제 기간, 입산통제 기간
 //			유형 2 : 관광코스안내, 촬영장소, 상점정보
