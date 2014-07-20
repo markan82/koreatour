@@ -4,11 +4,12 @@
     <string name="hello">Hello World, MainActivity!</string>
     <string name="app_name">Tour in Korea</string>
     
-    <string name="title_tourist">관광지관광지</string>
+    <string name="title_tourist">관광지</string>
     <string name="msg_requesting_data">데이터 요청중...</string>
     <string name="msg_not_any_more">마지막입니다</string>
     <string name="msg_no_result_msg">검색 결과가 없습니다.</string>
     <string name="search_all_area">전체 지역</string>
+    <string name="search_area">지역 검색</string>
     <string name="search">검색</string>
     
 	
@@ -17,7 +18,7 @@
     <string name="all_area">전체 지역</string>
     <string name="all">전체</string>
     
-    <string name="hint_keyword">검색어</string>
+    <string name="hint_keyword">관광지명으로 검색가능합니다.</string>
     <string name="btn_search">검색</string>
 
 </resources>

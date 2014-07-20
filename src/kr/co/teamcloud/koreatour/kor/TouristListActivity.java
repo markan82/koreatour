@@ -1,38 +1,58 @@
 package kr.co.teamcloud.koreatour.kor;
 
-import android.annotation.*;
-import android.content.*;
-import android.net.*;
-import android.os.*;
-import android.util.*;
-import android.view.*;
-import android.view.View.*;
-import android.widget.*;
-import android.widget.AbsListView.*;
-import android.widget.AdapterView.*;
-import android.widget.SearchView.*;
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import kr.co.teamcloud.koreatour.common.*;
-import kr.co.teamcloud.koreatour.util.*;
-import org.json.*;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 
+import kr.co.teamcloud.koreatour.common.CommonConstants;
+import kr.co.teamcloud.koreatour.util.JSONParser;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.text.Spannable;
+import android.text.style.ImageSpan;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
-public class TouristListActivity extends TourBaseActivity implements OnScrollListener, OnClickListener, OnItemClickListener {
+public class TouristListActivity extends TourBaseActivity implements OnScrollListener, OnClickListener, OnItemClickListener, SearchView.OnQueryTextListener {
 	private final String TAG = "TouristListActivity";
 	
 	private ArrayList<HashMap<String, Object>> tourList = new ArrayList<HashMap<String, Object>>();
 
 	private ViewSwitcher loadingView;
-//	private TextView textView;
 	private TextView noResultMsg;
-	private EditText inKeyword;
-	private Button btnSearch;
+	private TextView txtSearchArea;
 	private Button btnSearchArea;
 	private ListView listView;
+	private SearchView mSearchView;
 
 	private TouristListAdapter adapter;
 
@@ -69,22 +89,10 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tourlist_list);
 
-//		textView = (TextView) findViewById(R.id.myText);
 		noResultMsg = (TextView) findViewById(R.id.txtNoResultMsg);
+		txtSearchArea = (TextView) findViewById(R.id.txtSearchArea);
 		btnSearchArea = (Button) findViewById(R.id.btnSearchArea);
 		btnSearchArea.setOnClickListener(this);
-		
-		inKeyword = (EditText) findViewById(R.id.inKeyword);
-		btnSearch = (Button) findViewById(R.id.btnSearch);
-		btnSearch.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-//				Toast.makeText(TouristListActivity.this, keyword, Toast.LENGTH_LONG).show();
-				pageNo = 1; 		//페이지 번호 초기화
-				//tourList.clear();	//목록 초기화
-				searchList();
-			}
-		});
 
 		/** 아답타 등록 */
 		adapter = new TouristListAdapter(this, tourList);    
@@ -120,7 +128,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 	}
 	
 	private void searchList() {	
-		keyword = inKeyword.getText().toString();
+//		keyword = inKeyword.getText().toString();
 		
 		StringBuilder sb = new StringBuilder();
 		if( keyword != null && !"".equals(keyword) ) { //키워드 검색
@@ -296,9 +304,11 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 					sigunguName = intent.getStringExtra("sigunguName");
 	
 					if (sigunguName != null && !"".equals(sigunguName))
-						btnSearchArea.setText(areaName + " > " + sigunguName);
+//						btnSearchArea.setText(areaName + " > " + sigunguName);
+						txtSearchArea.setText(areaName + " > " + sigunguName);
 					else
-						btnSearchArea.setText(areaName);
+//						btnSearchArea.setText(areaName);
+						txtSearchArea.setText(areaName);
 	
 					pageNo = 1;				//페이지 초기화
 					tourList.clear();		//목록 초기화
@@ -328,77 +338,37 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 		super.onCreateOptionsMenu(menu);
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.tourist_menu, menu);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-			/*
-			searchItem = menu.findItem(R.id.action_search);
-			searchView = (SearchView) searchItem.getActionView();
-			searchView.setQueryHint("물품명 또는 분류");
-			searchView.setOnQueryTextListener(queryTextListener);      
 
-			SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-			if(null!=searchManager ) {   
-				searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-			}
-			searchView.setIconifiedByDefault(true);
-			*/
+		// Associate searchable configuration with the SearchView
+		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+		searchView.setOnQueryTextListener(this);
+		
+		int searchSrcTextId = getResources().getIdentifier("android:id/search_src_text", null, null);  
+		EditText searchEditText = (EditText) searchView.findViewById(searchSrcTextId);  
+		searchEditText.setTextColor(Color.WHITE);  
+		searchEditText.setHintTextColor(Color.LTGRAY); 
+		
+		int closeButtonId = getResources().getIdentifier("android:id/search_close_btn", null, null);  
+		ImageView closeButtonImage = (ImageView) searchView.findViewById(closeButtonId);  
+		closeButtonImage.setImageResource(R.drawable.ic_action_cancel);  
 
-		}
-		return true;
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onQueryTextChange(String newText) {
+		keyword = newText;
+		return false;
+	}
+
+	@Override
+	public boolean onQueryTextSubmit(String query) {
+		keyword = query;
+		pageNo = 1; 		//페이지 번호 초기화
+		searchList();
+		return false;
 	}
 	
-	private OnQueryTextListener queryTextListener = new OnQueryTextListener() {
-		@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-		@Override
-		public boolean onQueryTextSubmit(String query) {
-			/*
-			⁄⁄ TODO Auto-generated method stub
-			⁄⁄searchItem.collapseActionView();
-			⁄⁄Log.d(TAG,"onQueryTextSubmit");
-			Cursor mCount= db.rawQuery("select count(*) from datainfo where GetName like '%" + query+"%' or cate like '%"+ query+"%'", null);
-			mCount.moveToFirst();
-			count= mCount.getInt(0);
-			mCount.close();
-			if(count <=0){
-				Toast.makeText(LostActivity.con, "검색된 데이타가 없습니다.", Toast.LENGTH_LONG).show();
-				return false;
-			}
-			datainfo = new DataInfo[count];
-			Cursor result = db.rawQuery("SELECT * from datainfo where GetName like '%" + query+"%' or cate like '%"+ query+"%' order by GetDate desc", null);
-			result.moveToFirst();	
-			int i =0;
-			while (i<count){
-				datainfo[i] = new DataInfo();
-				datainfo[i].SetLostId(result.getString(1));
-				datainfo[i].SetLostName(result.getString(2));
-				datainfo[i].SetLostURL(result.getString(3));
-				datainfo[i].SetLostDate(result.getString(5));
-				datainfo[i].SetLostTitle(result.getString(4));
-				datainfo[i].SetTakePlace(result.getString(6));
-				datainfo[i].SetTakeContact(result.getString(7));
-				datainfo[i].SetLostPos(result.getString(9));
-				datainfo[i].SetLostPlace(result.getString(10));
-				datainfo[i].SetLostThing(result.getString(11));
-				datainfo[i].SetLostStatus(result.getString(12));
-				datainfo[i].SetLostImageUrl(result.getString(14));
-				i++;
-				result.moveToNext();
-			}
-			result.close();	
-			appendRow(datainfo);
-			resizeRow(count);
-			⁄⁄Log.d(TAG,"onQueryTextSubmit"+count);
-			imm= (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
-			searchView.setQuery("", false);
-			searchView.setIconified(true);
-			⁄⁄Toast.makeText(LostActivity.con, "onQueryTextSubmit:["+count+"]", Toast.LENGTH_LONG).show();
-			*/
-			return false;
-		}
-		@Override
-		public boolean onQueryTextChange(String newText) {
-			// TODO Auto-generated method stub
-			return false;
-		}
-	};
 }
