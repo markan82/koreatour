@@ -9,10 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-		<Button
+		<ImageButton
+		    android:layout_margin="5dip"
             android:id="@+id/btnSearchArea"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dip"
+            android:layout_height="35dip"
+            android:src="@drawable/ic_action_place"
+            style="@style/btnStyleShakespeare"
             android:text="@string/search_area" />
         <TextView
             android:text="@string/search_all_area"
@@ -21,10 +24,10 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:layout_toRightOf="@id/btnSearchArea"
+            android:layout_alignBaseline="@id/btnSearchArea"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dip"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-
     </RelativeLayout>
     
     <FrameLayout

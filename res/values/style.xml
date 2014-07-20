@@ -12,6 +12,9 @@
         <item name="android:shadowRadius">0.6</item>
         <item name="android:background">@drawable/custom_btn_shakespeare</item>
         <item name="android:padding">10dip</item>
+         <!-- Customizations  -->
+    	<item name="android:minHeight">0dp</item>
+    	<item name="android:minWidth">0dp</item>
     </style>
 
 </resources>

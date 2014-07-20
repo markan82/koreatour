@@ -1,7 +1,6 @@
 package kr.co.teamcloud.koreatour.kor;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,13 +16,10 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,6 +31,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -50,7 +47,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 	private ViewSwitcher loadingView;
 	private TextView noResultMsg;
 	private TextView txtSearchArea;
-	private Button btnSearchArea;
+	private ImageButton btnSearchArea;
 	private ListView listView;
 	private SearchView mSearchView;
 
@@ -91,7 +88,7 @@ public class TouristListActivity extends TourBaseActivity implements OnScrollLis
 
 		noResultMsg = (TextView) findViewById(R.id.txtNoResultMsg);
 		txtSearchArea = (TextView) findViewById(R.id.txtSearchArea);
-		btnSearchArea = (Button) findViewById(R.id.btnSearchArea);
+		btnSearchArea = (ImageButton) findViewById(R.id.btnSearchArea);
 		btnSearchArea.setOnClickListener(this);
 
 		/** 아답타 등록 */

@@ -429,8 +429,8 @@ public class TouristDetailActivity extends TourBaseActivity
 				btnTel.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						Intent intent = new Intent(Intent.ACTION_CALL);
-						intent.setData(Uri.parse(telNum));
+						Intent intent = new Intent(Intent.ACTION_VIEW);
+						intent.setData(Uri.parse("tel:"+telNum));
 				        startActivity(intent);
 					}
 				});
