@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView 		
+    xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:orientation="vertical">
+	
+		<ImageView
+			android:contentDescription="image"
+			android:layout_width="fill_parent"
+			android:layout_height="100dip"/>
+	
+		<LinearLayout
+			android:layout_margin="10dp"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+	
+			<Button
+				android:singleLine="true"
+			    android:id="@+id/btnMap"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:ellipsize="end"
+				android:gravity="left|center_vertical"
+				android:drawableLeft="@drawable/ic_arrow"
+				android:drawablePadding="5dip"
+				/>
+	
+			<Button
+				android:singleLine="true"
+			    android:id="@+id/btnTel"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:ellipsize="end"
+				android:gravity="left|center_vertical"
+				android:drawableLeft="@drawable/ic_arrow"
+				android:drawablePadding="5dip"
+				/>
+	
+			<Button
+				android:singleLine="true"
+			    android:id="@+id/btnSite"
+			    android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:ellipsize="end"
+				android:gravity="left|center_vertical"
+				android:drawableLeft="@drawable/ic_arrow"
+				android:drawablePadding="5dip"
+				/>
+	
+		</LinearLayout>
+	
+		<LinearLayout
+		    android:layout_marginLeft="10dp"
+		    android:layout_marginRight="10dp"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+	
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="overview"
+				android:typeface="monospace"
+				android:textStyle="bold"/>
+	
+			<TextView
+				android:layout_height="wrap_content"
+				android:text="Text"
+				android:layout_width="match_parent"
+				android:id="@+id/txtOverview"/>
+	
+			<TextView
+			    android:id="@+id/btnOverviewMore"
+				android:layout_height="wrap_content"
+				android:text="more"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="wrap_content"
+				android:layout_gravity="right"/>
+	
+		</LinearLayout>
+			
+	</LinearLayout>
+</ScrollView>
