@@ -13,54 +13,61 @@ public final class R {
     public static final class drawable {
         public static final int actionbar_background=0x7f020000;
         public static final int custom_btn_shakespeare=0x7f020001;
-        public static final int ic_arrow=0x7f020002;
-        public static final int ic_launcher=0x7f020003;
-        public static final int thumbnail_bg=0x7f020004;
+        public static final int ic_action_cancel=0x7f020002;
+        public static final int ic_action_place=0x7f020003;
+        public static final int ic_action_search=0x7f020004;
+        public static final int ic_arrow=0x7f020005;
+        public static final int ic_launcher=0x7f020006;
+        public static final int thumbnail_bg=0x7f020007;
     }
     public static final class id {
-        public static final int action_search=0x7f070010;
-        public static final int add=0x7f07000f;
-        public static final int address=0x7f07000e;
+        public static final int action_search=0x7f070011;
+        public static final int add=0x7f070010;
+        public static final int address=0x7f07000f;
+        public static final int btnIntroDetail=0x7f070006;
         public static final int btnMap=0x7f070001;
         public static final int btnOverviewMore=0x7f070005;
-        public static final int btnSearch=0x7f070007;
-        public static final int btnSearchArea=0x7f070006;
+        public static final int btnSearchArea=0x7f070007;
         public static final int btnSite=0x7f070003;
         public static final int btnTel=0x7f070002;
-        public static final int inKeyword=0x7f070008;
         public static final int listView1=0x7f070009;
-        public static final int list_image=0x7f07000c;
+        public static final int list_image=0x7f07000d;
         public static final int myText=0x7f070000;
-        public static final int thumbnail=0x7f07000b;
-        public static final int title=0x7f07000d;
+        public static final int thumbnail=0x7f07000c;
+        public static final int title=0x7f07000e;
+        public static final int txtIntroDetail=0x7f07000b;
         public static final int txtNoResultMsg=0x7f07000a;
         public static final int txtOverview=0x7f070004;
+        public static final int txtSearchArea=0x7f070008;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int activity_tourist_detail=0x7f030001;
         public static final int activity_tourlist_list=0x7f030002;
         public static final int dialog_area_list=0x7f030003;
-        public static final int loading_progress=0x7f030004;
-        public static final int tourlist_list_item=0x7f030005;
+        public static final int dialog_tourist_intro_detail=0x7f030004;
+        public static final int loading_progress=0x7f030005;
+        public static final int tourlist_list_item=0x7f030006;
     }
     public static final class menu {
         public static final int tourist_menu=0x7f060000;
     }
     public static final class string {
-        public static final int all=0x7f04000b;
-        public static final int all_area=0x7f04000a;
+        public static final int all=0x7f04000d;
+        public static final int all_area=0x7f04000c;
         public static final int app_name=0x7f040001;
-        public static final int btn_search=0x7f04000d;
+        public static final int btn_search=0x7f04000f;
         public static final int hello=0x7f040000;
-        public static final int hint_keyword=0x7f04000c;
+        public static final int hint_keyword=0x7f04000e;
         public static final int msg_no_result_msg=0x7f040005;
         public static final int msg_not_any_more=0x7f040004;
         public static final int msg_requesting_data=0x7f040003;
-        public static final int search=0x7f040007;
+        public static final int search=0x7f040008;
         public static final int search_all_area=0x7f040006;
-        public static final int title_arealist=0x7f040008;
-        public static final int title_sigungulist=0x7f040009;
+        public static final int search_area=0x7f040007;
+        public static final int showIntroDetail=0x7f040009;
+        public static final int title_arealist=0x7f04000a;
+        public static final int title_sigungulist=0x7f04000b;
         public static final int title_tourist=0x7f040002;
     }
     public static final class style {

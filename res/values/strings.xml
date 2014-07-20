@@ -12,6 +12,7 @@
     <string name="search_area">지역 검색</string>
     <string name="search">검색</string>
     
+	<string name="showIntroDetail">상세정보 보기</string>
 	
     <string name="title_arealist">지역을 선택하세요</string>
     <string name="title_sigungulist">시군구를 선택하세요</string>

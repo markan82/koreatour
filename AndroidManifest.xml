@@ -42,6 +42,10 @@
 		
 		<activity android:name=".AreaListActivity" android:label="@string/title_arealist" android:theme="@android:style/Theme.Holo.Light.Dialog" android:screenOrientation="portrait" />
 		<activity android:name=".SigungoListActivity" android:label="@string/title_sigungulist" android:theme="@android:style/Theme.Holo.Light.Dialog" android:screenOrientation="portrait" />
+		<activity android:name=".TouristIntroDetailActivity" android:label="@string/title_sigungulist" android:theme="@android:style/Theme.Holo.Light.Dialog.MinWidth" android:screenOrientation="portrait" />
+		
+			
+			
     </application>
 
 </manifest>

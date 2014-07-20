@@ -38,6 +38,7 @@ public class TouristDetailActivity extends TourBaseActivity
 	private Button btnSite;
 	
 	private TextView txtOverview;
+	private Button btnIntroDetail;
 	private ProgressDialog dialog;
 	
     /** Called when the activity is first created. */
@@ -51,6 +52,7 @@ public class TouristDetailActivity extends TourBaseActivity
         btnMap = (Button)findViewById(R.id.btnMap);
         btnTel = (Button)findViewById(R.id.btnTel);
         btnSite = (Button)findViewById(R.id.btnSite);
+		btnIntroDetail = (Button)findViewById(R.id.btnIntroDetail);
         
 		String contentTypeId = getIntent().getStringExtra(TAG_CONTENT_TYPE_ID);
 		String contentId = getIntent().getStringExtra(TAG_CONTENT_ID);
@@ -436,6 +438,7 @@ public class TouristDetailActivity extends TourBaseActivity
 				});
 			}
 			
+			
 			if(result.get("homepageUrl")!=null) {
 				final String homepageUrl = (String)result.get("homepageUrl");
 				btnSite.setText(homepageUrl);
@@ -448,6 +451,19 @@ public class TouristDetailActivity extends TourBaseActivity
 					}
 				});
 			}
+			
+			final HashMap data = result;
+			data.remove("imageList");
+			data.remove("infoList");
+			btnIntroDetail.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						Intent intent = new Intent(TouristDetailActivity.this, TouristIntroDetailActivity.class);
+						//intent.setData(Uri.parse(homepageUrl));
+						intent.putExtra("data", data);
+				        startActivity(intent);
+					}
+				});
 			
 			if( dialog!=null && dialog.isShowing() ) 
 				dialog.dismiss();
